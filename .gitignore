@@ -13,3 +13,9 @@ coverage/
 src/plugins/orangehrmFunctionalTestingPlugin
 .php-cs-fixer.cache
 .php-cs-fixer.php
+
+# Environment
+.env
+
+# Docker
+ohrm-db-data/
