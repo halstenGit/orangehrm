@@ -1,0 +1,39 @@
+translations:
+    # buzz
+    - { target: 'Próximos Aniversários', unitId: upcoming_anniversaries, group: buzz }
+    - { target: '{yearsCount,plural, =0{} one{Ano} other{Anos}}', unitId: n_year, group: buzz }
+    - { target: 'Feed de Notícias do Buzz', unitId: buzz_newsfeed, group: buzz }
+    - { target: Publicar, unitId: post, group: buzz }
+    - { target: 'No que você está pensando?', unitId: post_placeholder, group: buzz }
+    - { target: 'Compartilhar Fotos', unitId: share_photos, group: buzz }
+    - { target: 'Compartilhar Vídeo', unitId: share_video, group: buzz }
+    - { target: Anos, unitId: years, group: buzz }
+    - { target: '{likesCount,plural, =0{0 Curtidas} one{1 Curtida} other{# Curtidas}}', unitId: n_like, group: buzz }
+    - { target: '{commentCount,plural, =0{0 Comentários} one{1 Comentário} other{# Comentários}}', unitId: n_comment, group: buzz }
+    - { target: '{shareCount,plural, =0{0 Compartilhamentos} one{1 Compartilhamento} other{# Compartilhamentos}}', unitId: n_share, group: buzz }
+    - { target: 'Escreva seu comentário...', unitId: write_your_comment, group: buzz }
+    - { target: 'Excluir Publicação', unitId: delete_post, group: buzz }
+    - { target: 'Editar Publicação', unitId: edit_post, group: buzz }
+    - { target: 'Publicações Mais Recentes', unitId: most_recent_posts, group: buzz }
+    - { target: 'Publicações Mais Curtidas', unitId: most_liked_posts, group: buzz }
+    - { target: 'Publicações Mais Comentadas', unitId: most_commented_posts, group: buzz }
+    - { target: Compartilhar, unitId: share, group: buzz }
+    - { target: 'URL do Vídeo', unitId: video_url, group: buzz }
+    - { target: 'Cole a URL do Vídeo', unitId: paste_video_url, group: buzz }
+    - { target: 'Adicionar Fotos', unitId: add_photos, group: buzz }
+    - { target: "Apenas imagens dos tipos 'gif', 'png', 'jpg', 'jpeg' são permitidas!", unitId: file_type_validation_message, group: buzz }
+    - { target: 'Tamanho máximo permitido é 2MB', unitId: file_size_validation_message, group: buzz }
+    - { target: 'Compartilhar Publicação', unitId: share_post, group: buzz }
+    - { target: 'Leia Mais', unitId: read_more, group: buzz }
+    - { target: 'Pressione Esc para', unitId: press_esc_to, group: buzz }
+    - { target: Curtir, unitId: like, group: buzz }
+    - { target: 'Nenhuma Publicação Disponível', unitId: no_posts_available, group: buzz }
+    - { target: 'Nenhum aniversário de trabalho nos próximos 30 dias', unitId: no_work_anniversaries_for_the_next_30_days, group: buzz }
+    - { target: 'O item selecionado será excluído permanentemente. Tem certeza que deseja continuar?', unitId: post_delete_confirmation_message, group: buzz }
+    # dashboard
+    - { target: 'Últimas Publicações do Buzz', unitId: buzz_latest_posts, group: dashboard }
+    - { target: 'Nenhuma Publicação Adicionada', unitId: no_posts_added, group: dashboard }
+    # general
+    - { target: 'Esta URL não é uma URL válida de um vídeo ou não é suportada pelo sistema', unitId: invalid_video_url_message, group: general }
+    # help
+    - { target: 'Primeiros Passos com OrangeHRM', unitId: getting_started_with_orangehrm, group: help }
