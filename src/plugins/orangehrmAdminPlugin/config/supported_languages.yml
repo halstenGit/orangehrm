@@ -8,8 +8,9 @@ languages:
   4: {key: 'en_US', value: 'English (United States)'}
   5: {key: 'fr', value: 'French - Français'}
   6: {key: 'de', value: 'German - Deutsch'}
-  7: {key: 'es', value: 'Spanish - Español'}
-  8: {key: 'es_CR', value: 'Spanish (Costa Rica) - Español (Costa Rica)'}
+  7: {key: 'pt_BR', value: 'Portuguese (Brazil) - Português (Brasil)'}
+  8: {key: 'es', value: 'Spanish - Español'}
+  9: {key: 'es_CR', value: 'Spanish (Costa Rica) - Español (Costa Rica)'}
 #  9: {key: 'zz_ZZ', value: 'test - TEST'}
 
 
