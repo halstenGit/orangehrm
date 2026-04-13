@@ -1,0 +1,8 @@
+translations:
+    # auth
+    - { target: 'Link de redefinição de senha não foi enviado', unitId: reset_password_link_was_not_sent, group: auth }
+    - { target: 'Seu link de redefinição de senha não foi enviado devido a um erro.', unitId: your_reset_password_link_not_sent_error, group: auth }
+    - { target: 'Entre em contato com seu administrador para redefinir sua senha.', unitId: please_contact_admin_reset_password, group: auth }
+    - { target: 'Sessão Expirada', unitId: session_expired, group: auth }
+    # pim
+    - { target: 'E-mail corporativo contém caracteres inválidos.', unitId: work_email_invalid_characters, group: pim }
