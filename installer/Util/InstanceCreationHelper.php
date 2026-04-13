@@ -272,6 +272,7 @@ class InstanceCreationHelper
         ['id' => 'en_US', 'label' => 'English (United States)'],
         ['id' => 'fr', 'label' => 'French - Français'],
         ['id' => 'de', 'label' => 'German - Deutsch'],
+        ['id' => 'pt_BR', 'label' => 'Portuguese (Brazil) - Português (Brasil)'],
         ['id' => 'es', 'label' => 'Spanish - Español'],
         ['id' => 'es_CR', 'label' => 'Spanish (Costa Rica) - Español (Costa Rica)'],
     ];
