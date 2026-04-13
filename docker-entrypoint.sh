@@ -24,4 +24,10 @@ if [ ! -f "lib/confs/Conf.php" ]; then
     echo ">>> Access the app URL to begin setup"
 fi
 
+# Seed pt_BR translations once (after install is complete)
+if [ -f "lib/confs/Conf.php" ] && [ ! -f "lib/confs/.pt_br_seeded" ]; then
+    echo ">>> Seeding pt_BR translations..."
+    php bin/seed-pt-br.php && touch lib/confs/.pt_br_seeded
+fi
+
 exec "$@"
