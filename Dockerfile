@@ -4,13 +4,17 @@
 # Designed for Railway deployment
 ###############################################
 
-# ---- Stage 1: Build Vue frontend ----
+# ---- Stage 1: Build Vue frontends ----
 FROM node:18-alpine AS frontend
 
+# Main app frontend → /app/web/dist
 WORKDIR /app/src/client
 COPY src/client/ ./
+RUN yarn install --frozen-lockfile && yarn build
 
-# Output goes to --dest ../../web/dist → /app/web/dist
+# Installer frontend → /app/installer/client/dist
+WORKDIR /app/installer/client
+COPY installer/client/ ./
 RUN yarn install --frozen-lockfile && yarn build
 
 # ---- Stage 2: PHP/Apache production image ----
@@ -86,8 +90,9 @@ RUN find . -name "*.htaccess" -exec sed -i 's/\r$//' {} + && \
 # Install PHP dependencies (production)
 RUN composer install -d src --no-dev --no-interaction --optimize-autoloader
 
-# Copy built frontend from stage 1
+# Copy built frontends from stage 1
 COPY --from=frontend /app/web/dist web/dist/
+COPY --from=frontend /app/installer/client/dist installer/client/dist/
 
 # Permissions
 RUN chown www-data:www-data /var/www/html; \
