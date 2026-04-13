@@ -1,0 +1,33 @@
+translations:
+    # admin
+    - { target: 'Use o modelo de exemplo', unitId: use_the_sample_template, group: admin }
+    - { target: 'Edite apenas o campo de destino', unitId: only_edit_the_target_field, group: admin }
+    - { target: 'Não altere o modelo', unitId: do_not_change_the_template, group: admin }
+    - { target: 'XLIFF de Exemplo', unitId: sample_xliff, group: admin }
+    - { target: 'Importar Pacote de Idioma', unitId: import_language_package, group: admin }
+    - { target: 'O texto não será traduzido automaticamente. Você precisará importar traduções ou traduzir dentro do sistema.', unitId: translate_text_manually, group: admin }
+    - { target: 'Deve ser menor que o Salário Máximo', unitId: should_be_lower_than_maximum_salary, group: admin }
+    - { target: 'Erros na Importação de Pacotes de Idioma', unitId: errors_in_import_language_packages, group: admin }
+    - { target: 'A sintaxe utilizada é inválida', unitId: invalid_syntax, group: admin }
+    - { target: 'Incompatibilidade encontrada entre marcadores', unitId: placeholder_mismatch, group: admin }
+    - { target: 'Incompatibilidade encontrada entre marcadores de expressão plural', unitId: plural_placeholder_mismatch, group: admin }
+    - { target: 'Incompatibilidade encontrada entre marcadores de expressão de seleção', unitId: select_placeholder_mismatch, group: admin }
+    - { target: '{count,plural, =0{Nenhum Registro Ignorado} one{1 Registro Ignorado} other{ # Registros Ignorados}}', unitId: n_records_skipped, group: admin }
+    - { target: '{count,plural, =0{Nenhum Erro Encontrado} one{(1) Erro Encontrado} other{ (#) Erros Encontrados}}', unitId: n_errors_found, group: admin }
+    - { target: '{count,plural, one{Corrigir Erro} other{ Corrigir Erros}}', unitId: fix_errors, group: admin }
+    - { target: 'O arquivo XLIFF não é válido', unitId: xliff_file_not_valid, group: admin }
+    - { target: 'O arquivo XLIFF está vazio', unitId: xliff_file_empty, group: admin }
+    - { target: 'O arquivo XLIFF está sem o atributo de idioma de destino', unitId: xliff_file_missing_target_language, group: admin }
+    - { target: 'O idioma de destino não corresponde ao idioma selecionado', unitId: target_language_does_not_match, group: admin }
+    - { target: 'Salve suas alterações antes de ir para a próxima página', unitId: please_save_before_pagination, group: admin }
+    # general
+    - { target: Atualizar, unitId: upgrade, group: general }
+    - { target: '{count, plural, one {Aceita até 1MB} other { Aceita até #MBs}}', unitId: accepts_up_to_n_mb, group: general }
+    - { target: '{count, plural, one {Aceita .docx, .doc, .odt, .pdf, .rtf, .txt até 1MB} other{ Aceita .docx, .doc, .odt, .pdf, .rtf, .txt até #MBs}}', unitId: accept_custom_format_file_up_to_n_mb, group: general }
+    # pim
+    - { target: Solteiro(a), unitId: single, group: pim }
+    - { target: Casado(a), unitId: married, group: pim }
+    - { target: Direto, unitId: direct, group: pim }
+    - { target: Indireto, unitId: indirect, group: pim }
+    # recruitment
+    - { target: 'Vagas de Emprego Ativas', unitId: active_job_vacancies, group: recruitment }
