@@ -1,0 +1,43 @@
+# Git
+.git
+.github
+.gitignore
+
+# Dev tools
+devTools
+build
+.php-cs-fixer.*
+phpunit.xml
+coverage/
+
+# Docker dev files
+Dockerfile.dev
+docker-compose.yml
+docker-entrypoint.dev.sh
+ohrm-db-data/
+
+# Docs
+*.md
+LICENSE
+CHANGELOG.TXT
+
+# IDE
+.idea
+.vscode
+
+# Environment
+.env
+.env.example
+
+# Generated (rebuilt in Docker)
+src/vendor
+src/client/node_modules
+web/dist
+
+# Tests
+src/test
+src/plugins/orangehrmFunctionalTestingPlugin
+
+# Logs/cache (runtime)
+src/log/*
+src/cache/*

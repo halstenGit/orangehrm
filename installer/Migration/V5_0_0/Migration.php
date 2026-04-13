@@ -215,6 +215,7 @@ class Migration extends AbstractMigration
             'ja_JP',
             'nl',
             'om_ET',
+            'pt_BR',
             'th_TH',
             'vi_VN',
             'zh_Hans_CN',
