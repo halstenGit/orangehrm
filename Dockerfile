@@ -74,12 +74,14 @@ RUN { \
         echo 'memory_limit=256M'; \
         echo 'max_execution_time=120'; \
     } > /usr/local/etc/php/conf.d/ohrm.ini; \
-    a2enmod rewrite
+    a2enmod rewrite access_compat
 
 WORKDIR /var/www/html
 
-# Copy source code
+# Copy source code and fix Windows CRLF line endings
 COPY . .
+RUN find . -name "*.htaccess" -exec sed -i 's/\r$//' {} + && \
+    find . -name "*.sh" -exec sed -i 's/\r$//' {} +
 
 # Install PHP dependencies (production)
 RUN composer install -d src --no-dev --no-interaction --optimize-autoloader
@@ -93,9 +95,10 @@ RUN chown www-data:www-data /var/www/html; \
     chown -R www-data:www-data lib/confs src/cache src/log src/config; \
     chmod -R 775 lib/confs src/cache src/log src/config
 
-# Entrypoint
+# Entrypoint — strip CRLF in case of Windows line endings
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+RUN sed -i 's/\r$//' /usr/local/bin/docker-entrypoint.sh && \
+    chmod +x /usr/local/bin/docker-entrypoint.sh
 
 EXPOSE 80
 

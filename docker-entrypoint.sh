@@ -1,6 +1,11 @@
 #!/bin/bash
 set -e
 
+# Fix MPM conflict — PHP needs prefork, disable others
+a2dismod mpm_event 2>/dev/null || true
+a2dismod mpm_worker 2>/dev/null || true
+a2enmod mpm_prefork 2>/dev/null || true
+
 # Railway provides PORT env var — Apache must listen on it
 if [ -n "$PORT" ]; then
     sed -i "s/Listen 80/Listen ${PORT}/" /etc/apache2/ports.conf
