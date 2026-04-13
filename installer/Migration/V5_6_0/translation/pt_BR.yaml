@@ -1,0 +1,10 @@
+translations:
+    # admin
+    - { target: 'URL do Provedor', unitId: url, group: admin }
+    - { target: 'Adicionar Provedor', unitId: add_provider, group: admin }
+    - { target: 'Editar Provedor', unitId: edit_provider, group: admin }
+    - { target: 'Lista de Provedores', unitId: provider_list, group: admin }
+    - { target: 'Nenhum Usuário Encontrado', unitId: no_user_found, group: admin }
+    - { target: 'Múltiplos Usuários Retornados', unitId: multiple_user_returned, group: admin }
+    # general
+    - { target: Valor, unitId: amount, group: general }
