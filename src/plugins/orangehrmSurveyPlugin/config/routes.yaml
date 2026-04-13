@@ -1,0 +1,154 @@
+##########################
+#          API
+##########################
+
+apiv2_survey_surveys:
+  path: /api/v2/survey/surveys
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Survey\Api\SurveyAPI
+
+apiv2_survey_survey:
+  path: /api/v2/survey/surveys/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Survey\Api\SurveyAPI
+  requirements:
+    id: '\d+'
+
+apiv2_survey_survey_action:
+  path: /api/v2/survey/surveys/{id}/action
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ PUT ]
+  defaults:
+    _api: OrangeHRM\Survey\Api\SurveyActionAPI
+  requirements:
+    id: '\d+'
+
+apiv2_survey_questions:
+  path: /api/v2/survey/surveys/{surveyId}/questions
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Survey\Api\SurveyQuestionAPI
+  requirements:
+    surveyId: '\d+'
+
+apiv2_survey_question:
+  path: /api/v2/survey/surveys/{surveyId}/questions/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Survey\Api\SurveyQuestionAPI
+  requirements:
+    surveyId: '\d+'
+    id: '\d+'
+
+apiv2_survey_targets:
+  path: /api/v2/survey/surveys/{surveyId}/targets
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Survey\Api\SurveyTargetAPI
+  requirements:
+    surveyId: '\d+'
+
+apiv2_survey_config:
+  path: /api/v2/survey/config
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Survey\Api\SurveyConfigAPI
+
+apiv2_survey_my_surveys:
+  path: /api/v2/survey/my-surveys
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Survey\Api\MySurveyAPI
+
+apiv2_survey_my_survey:
+  path: /api/v2/survey/my-surveys/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Survey\Api\MySurveyAPI
+  requirements:
+    id: '\d+'
+
+apiv2_survey_my_response:
+  path: /api/v2/survey/my-surveys/{surveyId}/response
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST ]
+  defaults:
+    _api: OrangeHRM\Survey\Api\MySurveyResponseAPI
+  requirements:
+    surveyId: '\d+'
+
+apiv2_survey_results:
+  path: /api/v2/survey/surveys/{surveyId}/results
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Survey\Api\SurveyResultAPI
+  requirements:
+    surveyId: '\d+'
+
+##########################
+#        Screens
+##########################
+
+survey_module:
+  path: /survey/viewSurveyModule
+  controller: OrangeHRM\Survey\Controller\SurveyModuleController::handle
+  methods: [ GET ]
+
+survey_list:
+  path: /survey/viewSurveys
+  controller: OrangeHRM\Survey\Controller\SurveyListController::handle
+  methods: [ GET ]
+
+survey_save:
+  path: /survey/saveSurvey
+  controller: OrangeHRM\Survey\Controller\SaveSurveyController::handle
+  methods: [ GET ]
+
+survey_save_with_id:
+  path: /survey/saveSurvey/{id}
+  controller: OrangeHRM\Survey\Controller\SaveSurveyController::handle
+  methods: [ GET ]
+  requirements:
+    id: '\d+'
+
+survey_builder:
+  path: /survey/surveyBuilder/{id}
+  controller: OrangeHRM\Survey\Controller\SurveyBuilderController::handle
+  methods: [ GET ]
+  requirements:
+    id: '\d+'
+
+survey_config:
+  path: /survey/surveyConfig
+  controller: OrangeHRM\Survey\Controller\SurveyConfigController::handle
+  methods: [ GET ]
+
+survey_results:
+  path: /survey/surveyResults/{id}
+  controller: OrangeHRM\Survey\Controller\SurveyResultsController::handle
+  methods: [ GET ]
+  requirements:
+    id: '\d+'
+
+my_surveys:
+  path: /survey/mySurveys
+  controller: OrangeHRM\Survey\Controller\MySurveysController::handle
+  methods: [ GET ]
+
+survey_respond:
+  path: /survey/respondSurvey/{id}
+  controller: OrangeHRM\Survey\Controller\RespondSurveyController::handle
+  methods: [ GET ]
+  requirements:
+    id: '\d+'
