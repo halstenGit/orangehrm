@@ -103,7 +103,7 @@ class Migration extends AbstractMigration
                 ->addColumn('is_anonymous', Types::SMALLINT, ['Notnull' => true, 'Default' => 0])
                 ->addColumn('target_type', Types::STRING, ['Notnull' => true, 'Length' => 30, 'Default' => 'all_employees'])
                 ->addColumn('created_by', Types::INTEGER, ['Notnull' => false])
-                ->addColumn('created_at', Types::DATETIME_MUTABLE, ['Notnull' => false, 'Default' => null])
+                ->addColumn('created_at', Types::DATETIME_MUTABLE, ['Notnull' => true])
                 ->addColumn('published_at', Types::DATETIME_MUTABLE, ['Notnull' => false, 'Default' => null])
                 ->addColumn('closed_at', Types::DATETIME_MUTABLE, ['Notnull' => false, 'Default' => null])
                 ->addColumn('is_deleted', Types::SMALLINT, ['Notnull' => true, 'Default' => 0])
@@ -180,7 +180,7 @@ class Migration extends AbstractMigration
                 ->addColumn('id', Types::INTEGER, ['Autoincrement' => true])
                 ->addColumn('survey_id', Types::INTEGER, ['Notnull' => true])
                 ->addColumn('emp_number', Types::INTEGER, ['Notnull' => false])
-                ->addColumn('submitted_at', Types::DATETIME_MUTABLE, ['Notnull' => false, 'Default' => null])
+                ->addColumn('submitted_at', Types::DATETIME_MUTABLE, ['Notnull' => true])
                 ->setPrimaryKey(['id'])
                 ->create();
             $foreignKeyConstraint1 = new ForeignKeyConstraint(
@@ -207,8 +207,9 @@ class Migration extends AbstractMigration
                 ->addColumn('response_id', Types::INTEGER, ['Notnull' => true])
                 ->addColumn('question_id', Types::INTEGER, ['Notnull' => true])
                 ->addColumn('answer_text', Types::TEXT, ['Notnull' => false])
-                ->addColumn('option_id', Types::INTEGER, ['Notnull' => false])
-                ->addColumn('rating_value', Types::INTEGER, ['Notnull' => false])
+                ->addColumn('answer_option_id', Types::INTEGER, ['Notnull' => false])
+                ->addColumn('answer_scale', Types::SMALLINT, ['Notnull' => false])
+                ->addColumn('answer_yes_no', Types::BOOLEAN, ['Notnull' => false])
                 ->setPrimaryKey(['id'])
                 ->create();
             $foreignKeyConstraint1 = new ForeignKeyConstraint(
@@ -228,7 +229,7 @@ class Migration extends AbstractMigration
             );
             $this->getSchemaHelper()->addForeignKey('ohrm_survey_answer', $foreignKeyConstraint2);
             $foreignKeyConstraint3 = new ForeignKeyConstraint(
-                ['option_id'],
+                ['answer_option_id'],
                 'ohrm_survey_question_option',
                 ['id'],
                 'fk_survey_answer_option_id',

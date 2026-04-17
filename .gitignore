@@ -19,3 +19,7 @@ src/plugins/orangehrmFunctionalTestingPlugin
 
 # Docker
 ohrm-db-data/
+
+# Local translation utilities
+fill-translations.py
+i18n-pt_BR.xml
