@@ -1,0 +1,87 @@
+##########################
+#          GAA
+##########################
+
+apiv2_gaa_solicitacoes:
+  description: 'GAA - Solicitações'
+  api: OrangeHRM\Gaa\Api\GaaSolicitacaoAPI
+  module: gaa
+  allowed:
+    read: true
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: true, delete: false } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
+
+apiv2_gaa_solicitacao_itens:
+  description: 'GAA - Itens da Solicitação'
+  api: OrangeHRM\Gaa\Api\GaaSolicitacaoItemAPI
+  module: gaa
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
+    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
+
+apiv2_gaa_catalogo:
+  description: 'GAA - Catálogo'
+  api: OrangeHRM\Gaa\Api\GaaCatalogoAPI
+  module: gaa
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
+
+apiv2_gaa_revisao_ti:
+  description: 'GAA - Revisão TI'
+  api: OrangeHRM\Gaa\Api\GaaRevisaoTiAPI
+  module: gaa
+  allowed:
+    read: true
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
+    - { role: Supervisor, permission: { read: false, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
+
+apiv2_gaa_minhas_pendencias:
+  description: 'GAA - Minhas Pendências'
+  api: OrangeHRM\Gaa\Api\GaaMinhasPendenciasAPI
+  module: gaa
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
+
+apiv2_gaa_historico:
+  description: 'GAA - Histórico Funcionário'
+  api: OrangeHRM\Gaa\Api\GaaHistoricoAPI
+  module: gaa
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
