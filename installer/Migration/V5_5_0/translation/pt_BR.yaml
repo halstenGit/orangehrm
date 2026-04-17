@@ -1,0 +1,37 @@
+translations:
+    # claim
+    - { target: Reembolso, unitId: claim, group: claim }
+    - { target: Eventos, unitId: events, group: claim }
+    - { target: 'Adicionar Evento', unitId: add_event, group: claim }
+    - { target: 'Editar Evento', unitId: edit_event, group: claim }
+    - { target: 'Nome do Evento', unitId: event_name, group: claim }
+    - { target: 'Tipos de Despesa', unitId: expense_types, group: claim }
+    - { target: 'Adicionar Tipo de Despesa', unitId: add_expense_type, group: claim }
+    - { target: 'Editar Tipo de Despesa', unitId: edit_expense_type, group: claim }
+    - { target: Evento, unitId: event, group: claim }
+    - { target: 'Criar Solicitação de Reembolso', unitId: create_claim_request, group: claim }
+    - { target: Observações, unitId: remarks, group: claim }
+    - { target: Criar, unitId: create, group: claim }
+    - { target: 'Enviar Reembolso', unitId: submit_claim, group: claim }
+    - { target: 'ID de Referência', unitId: reference_id, group: claim }
+    - { target: Valor, unitId: amount, group: claim }
+    - { target: Despesas, unitId: expenses, group: claim }
+    - { target: 'Tipo de Despesa', unitId: expense_type, group: claim }
+    - { target: Pagar, unitId: pay, group: claim }
+    - { target: 'Adicionar Despesa', unitId: add_expense, group: claim }
+    - { target: 'Editar Despesa', unitId: edit_expense, group: claim }
+    - { target: 'Deve ser um número válido (xxx.xx)', unitId: should_be_a_valid_number, group: claim }
+    - { target: 'Valor Total ({currencyName}) : {totalAmount}', unitId: total_amount, group: claim }
+    - { target: 'Data de Envio', unitId: submitted_date, group: claim }
+    - { target: 'Ver Detalhes', unitId: view_details, group: claim }
+    - { target: 'Meus Reembolsos', unitId: my_claims, group: claim }
+    - { target: 'Módulo de Reembolso', unitId: claim_module, group: claim }
+    - { target: Iniciado, unitId: initiated, group: claim }
+    - { target: Pago, unitId: paid, group: claim }
+    - { target: 'Atribuir Reembolso', unitId: assign_claim, group: claim }
+    - { target: 'Reembolsos dos Funcionários', unitId: employee_claims, group: claim }
+    # general
+    - { target: 'Esta página está em desenvolvimento.', unitId: page_under_development, group: general }
+    - { target: 'para baixar a versão estável mais recente.', unitId: download_latest_release, group: general }
+    - { target: Limpar, unitId: clear, group: general }
+    - { target: Fechar, unitId: close, group: general }
