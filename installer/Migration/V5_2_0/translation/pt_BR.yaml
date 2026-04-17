@@ -1,0 +1,140 @@
+translations:
+    # admin
+    - { target: 'Pacote de Idioma', unitId: language_package, group: admin }
+    - { target: 'Idioma de Origem', unitId: source_language, group: admin }
+    - { target: Módulo, unitId: module, group: admin }
+    - { target: 'Texto Original', unitId: source_text, group: admin }
+    - { target: 'Texto Traduzido', unitId: translated_text, group: admin }
+    - { target: 'Nota de Origem', unitId: source_note, group: admin }
+    - { target: Mostrar, unitId: show, group: admin }
+    - { target: Todos, unitId: all, group: admin }
+    - { target: Traduzido, unitId: translated, group: admin }
+    - { target: 'Não Traduzido', unitId: not_translated, group: admin }
+    - { target: 'Traduzir Pacote de Idioma', unitId: translate_language_package, group: admin }
+    - { target: 'Módulo de Diretório', unitId: directory_module, group: admin }
+    - { target: Ordem, unitId: order, group: admin }
+    - { target: 'Configurações do Servidor', unitId: server_settings, group: admin }
+    - { target: 'Configurações de Vinculação', unitId: bind_settings, group: admin }
+    - { target: 'Configurações de Pesquisa de Usuário', unitId: user_lookup_settings, group: admin }
+    - { target: 'Mapeamento de Dados', unitId: data_mapping, group: admin }
+    - { target: 'Configurações Adicionais', unitId: additional_settings, group: admin }
+    - { target: Servidor, unitId: host, group: admin }
+    - { target: 'IP ou Hostname do servidor LDAP sem o protocolo (sem ldap:// ou ldaps://)', unitId: ldap_host_input_hint, group: admin }
+    - { target: Porta, unitId: port, group: admin }
+    - { target: 'Se SSL, use a porta 636 por padrão', unitId: port_input_hint, group: admin }
+    - { target: Criptografia, unitId: encryption, group: admin }
+    - { target: 'Implementação LDAP', unitId: ldap_implementation, group: admin }
+    - { target: 'Nome Distinto', unitId: distinguished_name, group: admin }
+    - { target: 'Nome Distinto Base', unitId: base_distinguished_name, group: admin }
+    - { target: 'Escopo de Pesquisa', unitId: search_scope, group: admin }
+    - { target: 'Opção Subárvore pesquisa o diretório base e subdiretórios. Um nível pesquisa apenas no diretório base', unitId: search_scope_input_hint, group: admin }
+    - { target: 'Atributo de Nome de Usuário', unitId: user_name_attribute, group: admin }
+    - { target: 'Campo de Primeiro Nome', unitId: firstname_field, group: admin }
+    - { target: 'Campo de Nome do Meio', unitId: middlename_field, group: admin }
+    - { target: 'Campo de Sobrenome', unitId: lastname_field, group: admin }
+    - { target: 'Campo de Status do Usuário', unitId: user_status_field, group: admin }
+    - { target: 'Campo de E-mail Corporativo', unitId: work_email_field, group: admin }
+    - { target: 'Campo de ID do Funcionário', unitId: employee_id_field, group: admin }
+    - { target: 'Testar Conexão', unitId: test_connection, group: admin }
+    - { target: 'Vincular Anonimamente', unitId: bind_anonymously, group: admin }
+    - { target: 'Intervalo de Sincronização (em Horas)', unitId: sync_interval, group: admin }
+    - { target: 'Classe de Objeto do Grupo', unitId: group_object_class, group: admin }
+    - { target: 'Filtro de Objeto do Grupo', unitId: group_object_filter, group: admin }
+    - { target: 'Atributo de Nome do Grupo', unitId: group_name_attribute, group: admin }
+    - { target: 'Atributo de Membros do Grupo', unitId: group_members_attribute, group: admin }
+    - { target: 'Atributo de Associação do Usuário', unitId: user_membership_attribute, group: admin }
+    - { target: 'Campo de atributo para carregar o nome de usuário. Ex: cn, nome da conta SMA', unitId: user_name_input_hint, group: admin }
+    - { target: SSL, unitId: ssl, group: admin }
+    - { target: Subárvore, unitId: subtree, group: admin }
+    - { target: 'Um nível', unitId: one_level, group: admin }
+    - { target: 'Open LDAP v3', unitId: open_ldap_v3, group: admin }
+    - { target: 'MS Active Directory', unitId: ms_active_directory, group: admin }
+    - { target: 'Status da Conexão', unitId: connection_status, group: admin }
+    - { target: 'Conexão de Sincronização', unitId: sync_connection, group: admin }
+    - { target: 'Sincronizar Agora', unitId: sync_now, group: admin }
+    - { target: 'Última sincronização em {datetime}', unitId: last_synced_on_datetime, group: admin }
+    - { target: 'Última sincronização falhou em {datetime}', unitId: last_sync_failed_on_datetime, group: admin }
+    - { target: 'Sincronização Bem-Sucedida', unitId: synchronization_successful, group: admin }
+    - { target: 'Sincronização Falhou', unitId: synchronization_failed, group: admin }
+    - { target: 'Filtro de Pesquisa de Usuário', unitId: user_search_filter, group: admin }
+    - { target: 'Atributo de ID Único do Usuário', unitId: user_unique_id_attribute, group: admin }
+    - { target: 'Mesclar Usuários LDAP com Usuários Existentes no Sistema', unitId: merge_ldap_users_with_existing_system_users, group: admin }
+    - { target: 'Verifique as configurações da sua configuração LDAP', unitId: please_check_the_settings_for_your_ldap_configuration, group: admin }
+    - { target: 'Campo de atributo para pesquisar objetos de usuário. Ex: objectClass=person', unitId: user_search_filter_input_hint, group: admin }
+    - { target: 'Campo de atributo para usar como identificador único imutável para objetos de usuário. Usado para rastrear mudanças de nome de usuário. Ex: entryUUID, objectGUID', unitId: user_unique_attribute_input_hint, group: admin }
+    - { target: 'Campo no OrangeHRM', unitId: field_in_orangehrm, group: admin }
+    - { target: 'Campo no Diretório LDAP', unitId: field_in_ldap_directory, group: admin }
+    - { target: 'Usar este campo como campo de mapeamento funcionário/usuário', unitId: use_this_field_as_the_employee_user_mapping_field, group: admin }
+    - { target: '{count} usuário(s) encontrado(s)', unitId: n_users_found, group: admin }
+    - { target: '{count} usuário(s) serão importados', unitId: n_users_will_be_imported, group: admin }
+    - { target: Consultar, unitId: lookup, group: admin }
+    - { target: 'Consulta de Usuário', unitId: user_lookup, group: admin }
+    - { target: Autenticação, unitId: authentication, group: admin }
+    - { target: 'Resultados da Pesquisa', unitId: search_results, group: admin }
+    - { target: 'Solicitações de Licença', unitId: leave_applications, group: admin }
+    - { target: 'Atribuições de Licença', unitId: leave_assignments, group: admin }
+    - { target: 'Aprovações de Licença', unitId: leave_approvals, group: admin }
+    - { target: 'Cancelamentos de Licença', unitId: leave_cancellation, group: admin }
+    - { target: 'Rejeições de Licença', unitId: leave_rejections, group: admin }
+    - { target: 'Configurações LDAP não configuradas', unitId: ldap_settings_not_configured, group: admin }
+    - { target: 'Sincronização LDAP não habilitada', unitId: ldap_sync_not_enabled, group: admin }
+    - { target: 'Antes de ativar o serviço LDAP, certifique-se de que todas as configurações LDAP estão funcionando corretamente, pois uma configuração incorreta pode resultar em dados corrompidos. Como precaução, recomendamos criar um backup do banco de dados antes de continuar.', unitId: ldap_configuration_warning_message, group: admin }
+    # attendance
+    - { target: 'Ponto Registrado', unitId: punched_in, group: attendance }
+    - { target: 'Ponto de Saída Registrado', unitId: punched_out, group: attendance }
+    - { target: 'Ponto Não Registrado', unitId: not_punched_in, group: attendance }
+    # dashboard
+    - { target: 'Distribuição de Funcionários por Sub Unidade', unitId: employee_distribution_by_sub_unit, group: dashboard }
+    - { target: 'Distribuição de Funcionários por Localidade', unitId: employee_distribution_by_location, group: dashboard }
+    - { target: 'Não Atribuído', unitId: unassigned, group: dashboard }
+    - { target: 'Funcionários de Licença Hoje', unitId: employees_on_leave_today, group: dashboard }
+    - { target: 'Nenhum Funcionário de Licença Hoje', unitId: no_employees_are_on_leave_today, group: dashboard }
+    - { target: 'Período de Licença Não Definido', unitId: leave_period_not_defined, group: dashboard }
+    - { target: 'Tempo no Trabalho', unitId: time_at_work, group: dashboard }
+    - { target: Hoje, unitId: today, group: dashboard }
+    - { target: 'Esta Semana', unitId: this_week, group: dashboard }
+    - { target: '{lastState}: {date} às {time} (GMT {timezoneOffset})', unitId: state_date_at_time_timezone_offset, group: dashboard }
+    - { target: '{lastState}: Hoje às {time} (GMT {timezoneOffset})', unitId: state_today_at_time_timezone_offset, group: dashboard }
+    - { target: 'Acesso Rápido', unitId: quick_launch, group: dashboard }
+    - { target: 'Minhas Ações', unitId: my_actions, group: dashboard }
+    - { target: '{pendingActionsCount,plural, =0{Nenhum Registro Encontrado} one{(1) Solicitação de Licença para Aprovar} other{ (#) Solicitações de Licença para Aprovar}}', unitId: n_pending_leave_request, group: dashboard }
+    - { target: '{pendingActionsCount,plural, =0{Nenhum Registro Encontrado} one{(1) Folha de Ponto para Aprovar} other{ (#) Folhas de Ponto para Aprovar}}', unitId: n_pending_time_sheet, group: dashboard }
+    - { target: '{pendingActionsCount,plural, =0{Nenhum Registro Encontrado} one{(1) Avaliação de Desempenho para Avaliar} other{ (#) Avaliações de Desempenho para Avaliar}}', unitId: n_pending_performance_evaluate, group: dashboard }
+    - { target: '{pendingActionsCount,plural, =0{Nenhum Registro Encontrado} one{(1) Candidato para Entrevistar} other{ (#) Candidatos para Entrevistar}}', unitId: n_pending_candidate_interview, group: dashboard }
+    - { target: 'Nenhuma Ação Pendente', unitId: no_pending_actions, group: dashboard }
+    - { target: '{pendingActionsCount,plural, =0{Nenhum Registro Encontrado} one{(1) Autoavaliação Pendente} other{ (#) Autoavaliações Pendentes}}', unitId: n_pending_self_review, group: dashboard }
+    - { target: Configurações, unitId: configurations, group: dashboard }
+    - { target: 'Mostrar apenas funcionários acessíveis de licença para outros usuários', unitId: only_show_accessible_employees_on_leave_for_other_users, group: dashboard }
+    - { target: 'Não Disponível', unitId: not_available, group: dashboard }
+    # general
+    - { target: Ascendente, unitId: ascending, group: general }
+    - { target: Descendente, unitId: descending, group: general }
+    - { target: 'Configuração LDAP', unitId: ldap_configuration, group: general }
+    - { target: Habilitar, unitId: enable, group: general }
+    - { target: 'Insira um número de porta válido entre {minValue} e {maxValue}', unitId: enter_valid_port_between_a_to_b, group: general }
+    - { target: 'Status do Usuário', unitId: user_status, group: general }
+    - { target: 'Deve ter pelo menos {amount} caracteres', unitId: should_be_least_n_characters, group: general }
+    # leave
+    - { target: 'Tipo de Direito', unitId: entitlement_type, group: leave }
+    - { target: '{action, select, APPROVE {{count, plural, =0 {Nenhuma Solicitação de Licença Aprovada} =1 {1 Solicitação de Licença Aprovada} other {# Solicitações de Licença Aprovadas} }} REJECT {{count, plural, =0 {Nenhuma Solicitação de Licença Rejeitada} =1 {1 Solicitação de Licença Rejeitada} other {# Solicitações de Licença Rejeitadas} }} other {{count, plural, =0 {Nenhuma Solicitação de Licença Cancelada} =1 {1 Solicitação de Licença Cancelada} other {# Solicitações de Licença Canceladas} }} }', unitId: leave_requests_action, group: leave }
+    # pim
+    - { target: 'Imposto de Renda Estadual', unitId: state_income_tax, group: pim }
+    - { target: Quinzenal, unitId: bi_weekly, group: pim }
+    - { target: 'Por Hora', unitId: hourly, group: pim }
+    - { target: Mensal, unitId: monthly, group: pim }
+    - { target: 'Mensal no primeiro pagamento do mês', unitId: monthly_on_first_pay, group: pim }
+    - { target: Quinzenal, unitId: semi_monthly, group: pim }
+    - { target: Semanal, unitId: weekly, group: pim }
+    - { target: Poupança, unitId: savings, group: pim }
+    - { target: 'Conta Corrente', unitId: checking, group: pim }
+    - { target: 'Adicionar Supervisor', unitId: add_supervisor, group: pim }
+    - { target: 'Adicionar Subordinado', unitId: add_subordinate, group: pim }
+    - { target: 'Nome de usuário já existe', unitId: username_already_exists, group: pim }
+    - { target: '{count,plural, =0{Nenhum Registro Importado} one{1 Registro Importado com Sucesso} other{ # Registros Importados com Sucesso}}', unitId: n_records_successfully_imported, group: pim }
+    - { target: '{count,plural, =0{Nenhum Registro Falhou na Importação} one{1 Registro Falhou na Importação} other{ # Registros Falharam na Importação}}', unitId: n_records_failed_to_import, group: pim }
+    - { target: 'Linhas com Falha', unitId: failed_rows, group: pim }
+    - { target: 'Detalhes da Importação', unitId: import_details, group: pim }
+    # time
+    - { target: Enviado, unitId: submitted, group: time }
+    - { target: 'Não Enviado', unitId: not_submitted, group: time }
+    - { target: Aprovado, unitId: approved, group: time }

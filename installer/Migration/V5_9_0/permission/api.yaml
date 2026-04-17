@@ -1,0 +1,115 @@
+##########################
+#        Survey
+##########################
+
+apiv2_survey_survey:
+  description: 'Survey - Surveys'
+  api: OrangeHRM\Survey\Api\SurveyAPI
+  module: survey
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
+    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
+
+apiv2_survey_survey_action:
+  description: 'Survey - Survey Actions'
+  api: OrangeHRM\Survey\Api\SurveyActionAPI
+  module: survey
+  allowed:
+    read: true
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: true, delete: false } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
+
+apiv2_survey_question:
+  description: 'Survey - Survey Questions'
+  api: OrangeHRM\Survey\Api\SurveyQuestionAPI
+  module: survey
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
+    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
+
+apiv2_survey_target:
+  description: 'Survey - Survey Targets'
+  api: OrangeHRM\Survey\Api\SurveyTargetAPI
+  module: survey
+  allowed:
+    read: true
+    create: true
+    update: true
+    delete: true
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
+    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
+
+apiv2_survey_config:
+  description: 'Survey - Survey Configuration'
+  api: OrangeHRM\Survey\Api\SurveyConfigAPI
+  module: survey
+  allowed:
+    read: true
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
+    - { role: Supervisor, permission: { read: false, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
+
+apiv2_survey_my_survey:
+  description: 'Survey - My Surveys'
+  api: OrangeHRM\Survey\Api\MySurveyAPI
+  module: survey
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
+
+apiv2_survey_my_response:
+  description: 'Survey - My Survey Responses'
+  api: OrangeHRM\Survey\Api\MySurveyResponseAPI
+  module: survey
+  allowed:
+    read: true
+    create: true
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: false, delete: false } }
+    - { role: Supervisor, permission: { read: true, create: true, update: false, delete: false } }
+    - { role: ESS, permission: { read: true, create: true, update: false, delete: false } }
+
+apiv2_survey_result:
+  description: 'Survey - Survey Results'
+  api: OrangeHRM\Survey\Api\SurveyResultAPI
+  module: survey
+  allowed:
+    read: true
+    create: false
+    update: false
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: Supervisor, permission: { read: false, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }

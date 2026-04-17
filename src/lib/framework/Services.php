@@ -455,4 +455,13 @@ final class Services
      * @see \OrangeHRM\OpenidAuthentication\Service\SocialMediaAuthenticationService
      */
     public const SOCIAL_MEDIA_AUTH_SERVICE = 'oidc.social_media_auth_service';
+
+    ///////////////////////////////////////////////////////////////
+    /// Survey plugin services
+    ///////////////////////////////////////////////////////////////
+
+    /**
+     * @see \OrangeHRM\Survey\Service\SurveyService
+     */
+    public const SURVEY_SERVICE = 'survey.survey_service';
 }

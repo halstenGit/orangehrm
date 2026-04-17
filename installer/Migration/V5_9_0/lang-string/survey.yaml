@@ -1,0 +1,166 @@
+langStrings:
+  -
+    value: "Survey"
+    unitId: survey
+  -
+    value: "Surveys"
+    unitId: surveys
+  -
+    value: "Add Survey"
+    unitId: add_survey
+  -
+    value: "Edit Survey"
+    unitId: edit_survey
+  -
+    value: "Survey List"
+    unitId: survey_list
+  -
+    value: "Survey Builder"
+    unitId: survey_builder
+  -
+    value: "Add Question"
+    unitId: add_question
+  -
+    value: "Edit Question"
+    unitId: edit_question
+  -
+    value: "Question Text"
+    unitId: question_text
+  -
+    value: "Question Type"
+    unitId: question_type
+  -
+    value: "Text"
+    unitId: text_type
+  -
+    value: "Multiple Choice"
+    unitId: multiple_choice
+  -
+    value: "Scale 1 to 5"
+    unitId: scale_1_to_5
+  -
+    value: "Scale 1 to 10"
+    unitId: scale_1_to_10
+  -
+    value: "Yes / No"
+    unitId: yes_no
+  -
+    value: "Options"
+    unitId: options
+  -
+    value: "Add Option"
+    unitId: add_option
+  -
+    value: "Sort Order"
+    unitId: sort_order
+  -
+    value: "Is Required"
+    unitId: is_required
+  -
+    value: "Required Field"
+    unitId: required_field
+  -
+    value: "Draft"
+    unitId: draft
+  -
+    value: "Published"
+    unitId: published
+  -
+    value: "Closed"
+    unitId: closed
+  -
+    value: "Publish Survey"
+    unitId: publish_survey
+  -
+    value: "Close Survey"
+    unitId: close_survey
+  -
+    value: "Anonymous"
+    unitId: anonymous
+  -
+    value: "Identified"
+    unitId: identified
+  -
+    value: "Anonymous Survey"
+    unitId: anonymous_survey
+  -
+    value: "Target Audience"
+    unitId: target_audience
+  -
+    value: "All Employees"
+    unitId: all_employees
+  -
+    value: "By Department"
+    unitId: by_department
+  -
+    value: "By Job Title"
+    unitId: by_job_title
+  -
+    value: "Specific Employees"
+    unitId: specific_employees
+  -
+    value: "My Surveys"
+    unitId: my_surveys
+  -
+    value: "Respond"
+    unitId: respond
+  -
+    value: "Submit Response"
+    unitId: submit_response
+  -
+    value: "Already Responded"
+    unitId: already_responded
+  -
+    value: "Survey Results"
+    unitId: survey_results
+  -
+    value: "Responses"
+    unitId: responses
+  -
+    value: "Response Count"
+    unitId: response_count
+  -
+    value: "Average Rating"
+    unitId: average_rating
+  -
+    value: "Survey Configuration"
+    unitId: survey_configuration
+  -
+    value: "Allow Supervisors to Create Surveys"
+    unitId: allow_supervisors_to_create_surveys
+  -
+    value: "Are you sure you want to publish this survey?"
+    unitId: confirm_publish
+  -
+    value: "Are you sure you want to close this survey?"
+    unitId: confirm_close
+  -
+    value: "Survey Published Successfully"
+    unitId: survey_published_successfully
+  -
+    value: "Survey Closed Successfully"
+    unitId: survey_closed_successfully
+  -
+    value: "No Surveys Found"
+    unitId: no_surveys_found
+  -
+    value: "No Questions Added"
+    unitId: no_questions_added
+  -
+    value: "Please Add at Least One Question"
+    unitId: add_at_least_one_question
+  -
+    value: "Survey Description"
+    unitId: survey_description
+  -
+    value: "Survey Title"
+    unitId: survey_title
+  -
+    value: "Create Survey"
+    unitId: create_survey
+  -
+    value: "View Results"
+    unitId: view_results
+  -
+    value: "Internal Surveys"
+    unitId: internal_surveys

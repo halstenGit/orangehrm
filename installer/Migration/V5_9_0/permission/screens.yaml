@@ -1,0 +1,63 @@
+"View Survey Module":
+  module: survey
+  url: viewSurveyModule
+  permissions:
+    - { role: Admin, permission: { read: true } }
+    - { role: Supervisor, permission: { read: true } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
+
+"Survey List":
+  module: survey
+  url: viewSurveys
+  permissions:
+    - { role: Admin, permission: { read: true } }
+    - { role: Supervisor, permission: { read: true } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
+
+"Save Survey":
+  module: survey
+  url: saveSurvey
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
+    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
+
+"Survey Builder":
+  module: survey
+  url: surveyBuilder
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
+    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
+
+"Survey Configuration":
+  module: survey
+  url: surveyConfig
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
+    - { role: Supervisor, permission: { read: false, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
+
+"Survey Results":
+  module: survey
+  url: surveyResults
+  permissions:
+    - { role: Admin, permission: { read: true } }
+    - { role: Supervisor, permission: { read: false, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
+
+"My Surveys":
+  module: survey
+  url: mySurveys
+  permissions:
+    - { role: Admin, permission: { read: true } }
+    - { role: Supervisor, permission: { read: true } }
+    - { role: ESS, permission: { read: true, create: false, update: false, delete: false } }
+
+"Respond to Survey":
+  module: survey
+  url: respondSurvey
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: false, delete: false } }
+    - { role: Supervisor, permission: { read: true, create: true, update: false, delete: false } }
+    - { role: ESS, permission: { read: true, create: true, update: false, delete: false } }
