@@ -100,6 +100,8 @@ try {
 
     $migrationHelper = new MigrationHelper($dbalConnection);
 
+    $migrationLogExists = $dbalConnection->createSchemaManager()->tablesExist(['ohrm_migration_log']);
+
     foreach ($pending as $key) {
         $migrationClasses = $map[$key];
         $classes = is_array($migrationClasses) ? $migrationClasses : [$migrationClasses];
@@ -109,10 +111,33 @@ try {
                 throw new RuntimeException("Invalid migration class `$class`");
             }
             $version = $migration->getVersion();
-            echo "auto-upgrade:  -> applying v$version ($class)\n";
-            $migrationHelper->logMigrationStarted($version);
-            set_time_limit(0);
-            $migration->up();
+
+            // Skip if a finished log entry already exists — the migration was
+            // run previously (e.g. via the web installer) but instance.version
+            // wasn't bumped. Just bump the version to match reality.
+            $alreadyRun = false;
+            if ($migrationLogExists) {
+                $alreadyRun = (bool) $dbalConnection->createQueryBuilder()
+                    ->select('id')
+                    ->from('ohrm_migration_log')
+                    ->where('version = :version')
+                    ->andWhere('finished_at IS NOT NULL')
+                    ->setParameter('version', $version)
+                    ->setMaxResults(1)
+                    ->executeQuery()
+                    ->fetchOne();
+            }
+
+            if ($alreadyRun) {
+                echo "auto-upgrade:  -> v$version already in ohrm_migration_log, skipping body, bumping instance.version only.\n";
+            } else {
+                echo "auto-upgrade:  -> applying v$version ($class)\n";
+                $migrationHelper->logMigrationStarted($version);
+                set_time_limit(0);
+                $migration->up();
+                $migrationHelper->logMigrationFinished($version);
+            }
+
             $dbalConnection->createQueryBuilder()
                 ->update('hs_hr_config')
                 ->set('value', ':value')
@@ -120,7 +145,6 @@ try {
                 ->setParameter('name', 'instance.version')
                 ->setParameter('value', $version)
                 ->executeStatement();
-            $migrationHelper->logMigrationFinished($version);
         }
     }
 
