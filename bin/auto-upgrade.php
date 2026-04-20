@@ -3,14 +3,18 @@
 /**
  * Idempotent migration runner for container/CI deploys.
  *
- * Reads Conf.php for DB credentials, opens a Doctrine DBAL connection,
- * injects it into OrangeHRM\Installer\Util\Connection (bypassing the
- * normal session-backed StateContainer plumbing the web installer uses),
- * then asks AppSetupUtility for the current instance.version and runs
- * any newer migrations declared in MIGRATIONS_MAP.
+ * Self-contained: bypasses AppSetupUtility::runMigrations (which depends
+ * on the session-backed StateContainer) and instead:
+ *   1. Opens a Doctrine DBAL connection from Conf.php.
+ *   2. Injects it into OrangeHRM\Installer\Util\Connection via
+ *      reflection so AbstractMigration::getConnection() returns it.
+ *   3. Reads instance.version straight from hs_hr_config.
+ *   4. Iterates AppSetupUtility::MIGRATIONS_MAP, runs any migration
+ *      newer than the current version, and updates instance.version
+ *      after each one.
  *
- * Idempotent: exits 0 with no changes if already at latest. Safe to
- * call on every container start.
+ * Idempotent: exits 0 with no action if already at latest. Exits 0 and
+ * warns if Conf.php / instance.version is missing (install incomplete).
  *
  * Usage: php bin/auto-upgrade.php
  */
@@ -26,16 +30,12 @@ require_once $confFile;
 
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Types\Types;
-use OrangeHRM\Framework\Framework;
 use OrangeHRM\Installer\Util\AppSetupUtility;
 use OrangeHRM\Installer\Util\Connection as InstallerConnection;
+use OrangeHRM\Installer\Util\MigrationHelper;
+use OrangeHRM\Installer\Util\V1\AbstractMigration;
 
 try {
-    // Bootstrap minimal framework so service container is available
-    // (StateContainer::getInstance() reaches for it during migration).
-    new Framework('prod', false);
-
-    // Build a DBAL connection straight from Conf.php credentials.
     $conf = new Conf();
     $dbalConnection = DriverManager::getConnection([
         'dbname' => $conf->getDbName(),
@@ -48,31 +48,82 @@ try {
     ]);
     $dbalConnection->getDatabasePlatform()->registerDoctrineTypeMapping('enum', Types::STRING);
 
-    // Inject into the installer's singleton so AbstractMigration::getConnection()
-    // returns ours instead of going through StateContainer/session.
     $reflection = new ReflectionClass(InstallerConnection::class);
     $prop = $reflection->getProperty('connection');
     $prop->setAccessible(true);
     $prop->setValue(null, $dbalConnection);
 
-    $util = new AppSetupUtility();
-    $current = $util->getCurrentProductVersionFromDatabase();
-    if ($current === null) {
+    $instanceVersion = $dbalConnection->createQueryBuilder()
+        ->select('value')
+        ->from('hs_hr_config')
+        ->where('`key` = :key')
+        ->setParameter('key', 'instance.version')
+        ->executeQuery()
+        ->fetchOne();
+
+    if ($instanceVersion === false || $instanceVersion === null || $instanceVersion === '') {
         fwrite(STDERR, "auto-upgrade: instance.version not set — install incomplete, skipping.\n");
         exit(0);
     }
 
     $map = AppSetupUtility::MIGRATIONS_MAP;
-    end($map);
-    $latest = key($map);
+    $currentKey = null;
+    foreach ($map as $key => $migrationClasses) {
+        $classes = is_array($migrationClasses) ? $migrationClasses : [$migrationClasses];
+        foreach ($classes as $class) {
+            $m = new $class();
+            if ($m instanceof AbstractMigration && $m->getVersion() === $instanceVersion) {
+                $currentKey = $key;
+                break 2;
+            }
+        }
+    }
 
-    if ($current === $latest) {
-        echo "auto-upgrade: already at latest (v$current), nothing to do.\n";
+    if ($currentKey === null) {
+        fwrite(STDERR, "auto-upgrade: could not match instance.version '$instanceVersion' to any entry in MIGRATIONS_MAP. Skipping to avoid wrong upgrade path.\n");
         exit(0);
     }
 
-    echo "auto-upgrade: running migrations from v$current to v$latest...\n";
-    $util->runMigrations($current, $latest);
+    end($map);
+    $latestKey = key($map);
+
+    if ($currentKey === $latestKey) {
+        echo "auto-upgrade: already at latest (v$currentKey), nothing to do.\n";
+        exit(0);
+    }
+
+    $keys = array_keys($map);
+    $currentIdx = array_search($currentKey, $keys, true);
+    $pending = array_slice($keys, $currentIdx + 1);
+
+    echo "auto-upgrade: running migrations from v$currentKey to v$latestKey (" . count($pending) . " step(s))...\n";
+
+    $migrationHelper = new MigrationHelper($dbalConnection);
+
+    foreach ($pending as $key) {
+        $migrationClasses = $map[$key];
+        $classes = is_array($migrationClasses) ? $migrationClasses : [$migrationClasses];
+        foreach ($classes as $class) {
+            $migration = new $class();
+            if (!($migration instanceof AbstractMigration)) {
+                throw new RuntimeException("Invalid migration class `$class`");
+            }
+            $version = $migration->getVersion();
+            echo "auto-upgrade:  -> applying v$version ($class)\n";
+            $migrationHelper->logMigrationStarted($version);
+            set_time_limit(0);
+            $migration->up();
+            $dbalConnection->createQueryBuilder()
+                ->update('hs_hr_config')
+                ->set('value', ':value')
+                ->where('`key` = :key')
+                ->setParameter('key', 'instance.version')
+                ->setParameter('value', $version)
+                ->executeStatement();
+            $migrationHelper->logMigrationFinished($version);
+        }
+    }
+
     echo "auto-upgrade: done.\n";
     exit(0);
 } catch (Throwable $e) {
