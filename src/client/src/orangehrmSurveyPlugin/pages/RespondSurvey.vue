@@ -54,7 +54,7 @@
         >
           <oxd-text tag="p" class="orangehrm-survey-respond-question-text">
             {{ index + 1 }}. {{ question.questionText }}
-            <span v-if="question.required" class="orangehrm-required-asterisk">*</span>
+            <span v-if="question.isRequired" class="orangehrm-required-asterisk">*</span>
           </oxd-text>
 
           <!-- TEXT -->
@@ -63,7 +63,7 @@
               v-model="answers[question.id]"
               type="textarea"
               :label="$t('survey.your_answer')"
-              :rules="question.required ? [rules.required] : []"
+              :rules="question.isRequired ? [rules.required] : []"
             />
           </template>
 
@@ -75,7 +75,7 @@
               :question-id="question.id"
             />
             <oxd-text
-              v-if="question.required && validationErrors[question.id]"
+              v-if="question.isRequired && validationErrors[question.id]"
               tag="p"
               class="orangehrm-survey-field-error"
             >
@@ -91,7 +91,7 @@
               :question-id="question.id"
             />
             <oxd-text
-              v-if="question.required && validationErrors[question.id]"
+              v-if="question.isRequired && validationErrors[question.id]"
               tag="p"
               class="orangehrm-survey-field-error"
             >
@@ -107,7 +107,7 @@
               :question-id="question.id"
             />
             <oxd-text
-              v-if="question.required && validationErrors[question.id]"
+              v-if="question.isRequired && validationErrors[question.id]"
               tag="p"
               class="orangehrm-survey-field-error"
             >
@@ -138,7 +138,7 @@
               </label>
             </div>
             <oxd-text
-              v-if="question.required && validationErrors[question.id]"
+              v-if="question.isRequired && validationErrors[question.id]"
               tag="p"
               class="orangehrm-survey-field-error"
             >
@@ -245,7 +245,7 @@ export default {
       this.validationErrors = {};
       let valid = true;
       this.questions.forEach((q) => {
-        if (q.required) {
+        if (q.isRequired) {
           const answer = this.answers[q.id];
           if (answer === null || answer === undefined || answer === '') {
             this.validationErrors[q.id] = true;
@@ -261,10 +261,26 @@ export default {
       }
       this.isLoading = true;
       const payload = {
-        answers: this.questions.map((q) => ({
-          questionId: q.id,
-          answer: this.answers[q.id],
-        })),
+        answers: this.questions.map((q) => {
+          const ans = this.answers[q.id];
+          const item = {questionId: q.id};
+          switch (q.questionType) {
+            case 'TEXT':
+              item.answerText = ans !== null && ans !== undefined ? String(ans) : null;
+              break;
+            case 'MULTIPLE_CHOICE':
+              item.answerOptionId = ans !== null && ans !== undefined ? Number(ans) : null;
+              break;
+            case 'SCALE_5':
+            case 'SCALE_10':
+              item.answerScale = ans !== null && ans !== undefined ? Number(ans) : null;
+              break;
+            case 'YES_NO':
+              item.answerYesNo = ans === 'YES' ? true : ans === 'NO' ? false : null;
+              break;
+          }
+          return item;
+        }),
       };
       this.responseHttp
         .create(payload)

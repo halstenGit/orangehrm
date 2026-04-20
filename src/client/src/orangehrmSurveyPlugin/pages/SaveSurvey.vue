@@ -125,8 +125,8 @@ export default {
       survey: {...initialSurvey},
       targetTypeOptions: [
         {id: 'ALL', label: this.$t('survey.all_employees')},
-        {id: 'BY_DEPARTMENT', label: this.$t('survey.by_department')},
-        {id: 'BY_JOB_TITLE', label: this.$t('survey.by_job_title')},
+        {id: 'SUBUNIT', label: this.$t('survey.by_department')},
+        {id: 'JOB_TITLE', label: this.$t('survey.by_job_title')},
         {id: 'SPECIFIC', label: this.$t('survey.specific_employees')},
       ],
       rules: {

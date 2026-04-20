@@ -54,7 +54,7 @@
             </oxd-text>
             <oxd-text tag="p" class="orangehrm-survey-question-text">
               {{ question.questionText }}
-              <span v-if="question.required" class="orangehrm-required-text">*</span>
+              <span v-if="question.isRequired" class="orangehrm-required-text">*</span>
             </oxd-text>
             <oxd-text tag="span" class="orangehrm-survey-question-type">
               {{ getQuestionTypeLabel(question.questionType) }}
@@ -297,7 +297,7 @@ export default {
       this.questionForm = {
         questionText: question.questionText,
         questionType: question.questionType,
-        required: question.required,
+        required: question.isRequired,
         options:
           question.options && question.options.length > 0
             ? question.options.map((o) => o.optionText)
@@ -321,7 +321,7 @@ export default {
       const payload = {
         questionText: this.questionForm.questionText.trim(),
         questionType: this.questionForm.questionType,
-        required: this.questionForm.required,
+        isRequired: this.questionForm.required,
         options:
           this.questionForm.questionType === 'MULTIPLE_CHOICE'
             ? this.questionForm.options
