@@ -34,6 +34,7 @@ RUN set -ex; \
         libldap2-dev \
         libicu-dev \
         unzip \
+        git \
     ; \
     docker-php-ext-configure gd --with-freetype --with-jpeg; \
     docker-php-ext-configure ldap \
