@@ -34,6 +34,7 @@ echo "pt_BR language enabled (ID: $langId)\n\n";
 $migrationDirs = [
     'V5_0_0', 'V5_1_0', 'V5_2_0', 'V5_3_0',
     'V5_4_0', 'V5_5_0', 'V5_6_0', 'V5_7_0', 'V5_8_0',
+    'V5_9_0', 'V5_10_0',
 ];
 
 $insertStmt = $pdo->prepare(

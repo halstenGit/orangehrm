@@ -1,0 +1,70 @@
+translations:
+  - {unitId: survey, group: survey, target: "Pesquisa"}
+  - {unitId: surveys, group: survey, target: "Pesquisas"}
+  - {unitId: add_survey, group: survey, target: "Adicionar Pesquisa"}
+  - {unitId: edit_survey, group: survey, target: "Editar Pesquisa"}
+  - {unitId: survey_list, group: survey, target: "Lista de Pesquisas"}
+  - {unitId: survey_builder, group: survey, target: "Construtor de Pesquisa"}
+  - {unitId: add_question, group: survey, target: "Adicionar Pergunta"}
+  - {unitId: edit_question, group: survey, target: "Editar Pergunta"}
+  - {unitId: question_text, group: survey, target: "Texto da Pergunta"}
+  - {unitId: question_type, group: survey, target: "Tipo de Pergunta"}
+  - {unitId: type_text, group: survey, target: "Texto"}
+  - {unitId: type_multiple_choice, group: survey, target: "Múltipla Escolha"}
+  - {unitId: type_scale_5, group: survey, target: "Escala (1-5)"}
+  - {unitId: type_scale_10, group: survey, target: "Escala (1-10)"}
+  - {unitId: type_yes_no, group: survey, target: "Sim / Não"}
+  - {unitId: options, group: survey, target: "Opções"}
+  - {unitId: option, group: survey, target: "Opção"}
+  - {unitId: add_option, group: survey, target: "Adicionar Opção"}
+  - {unitId: answer_options, group: survey, target: "Opções de Resposta"}
+  - {unitId: sort_order, group: survey, target: "Ordem"}
+  - {unitId: is_required, group: survey, target: "Obrigatória"}
+  - {unitId: required, group: survey, target: "Obrigatória"}
+  - {unitId: required_field, group: survey, target: "Campo obrigatório"}
+  - {unitId: draft, group: survey, target: "Rascunho"}
+  - {unitId: published, group: survey, target: "Publicada"}
+  - {unitId: closed, group: survey, target: "Encerrada"}
+  - {unitId: publish_survey, group: survey, target: "Publicar Pesquisa"}
+  - {unitId: close_survey, group: survey, target: "Encerrar Pesquisa"}
+  - {unitId: anonymous, group: survey, target: "Anônima"}
+  - {unitId: identified, group: survey, target: "Identificada"}
+  - {unitId: anonymous_survey, group: survey, target: "Pesquisa Anônima"}
+  - {unitId: target_audience, group: survey, target: "Público-Alvo"}
+  - {unitId: target_type, group: survey, target: "Tipo de Público"}
+  - {unitId: all_employees, group: survey, target: "Todos os Funcionários"}
+  - {unitId: by_department, group: survey, target: "Por Departamento"}
+  - {unitId: by_job_title, group: survey, target: "Por Cargo"}
+  - {unitId: specific_employees, group: survey, target: "Funcionários Específicos"}
+  - {unitId: my_surveys, group: survey, target: "Minhas Pesquisas"}
+  - {unitId: respond, group: survey, target: "Responder"}
+  - {unitId: respond_to_survey, group: survey, target: "Responder Pesquisa"}
+  - {unitId: submit_response, group: survey, target: "Enviar Resposta"}
+  - {unitId: response_submitted_successfully, group: survey, target: "Resposta enviada com sucesso"}
+  - {unitId: your_answer, group: survey, target: "Sua Resposta"}
+  - {unitId: already_responded, group: survey, target: "Já Respondido"}
+  - {unitId: survey_results, group: survey, target: "Resultados da Pesquisa"}
+  - {unitId: responses, group: survey, target: "Respostas"}
+  - {unitId: response_count, group: survey, target: "Total de Respostas"}
+  - {unitId: total_responses, group: survey, target: "Total de Respostas"}
+  - {unitId: no_responses_yet, group: survey, target: "Nenhuma resposta ainda"}
+  - {unitId: no_answers, group: survey, target: "Sem respostas"}
+  - {unitId: average, group: survey, target: "Média"}
+  - {unitId: average_rating, group: survey, target: "Avaliação Média"}
+  - {unitId: questions_count, group: survey, target: "Qtd. de Perguntas"}
+  - {unitId: survey_configuration, group: survey, target: "Configuração da Pesquisa"}
+  - {unitId: allow_supervisors_to_create_surveys, group: survey, target: "Permitir supervisores criarem pesquisas"}
+  - {unitId: allow_supervisors_create, group: survey, target: "Permitir supervisores criarem pesquisas"}
+  - {unitId: confirm_publish, group: survey, target: "Confirmar publicação"}
+  - {unitId: confirm_close, group: survey, target: "Confirmar fechamento"}
+  - {unitId: survey_published_successfully, group: survey, target: "Pesquisa publicada com sucesso"}
+  - {unitId: survey_closed_successfully, group: survey, target: "Pesquisa encerrada com sucesso"}
+  - {unitId: no_surveys_found, group: survey, target: "Nenhuma pesquisa encontrada"}
+  - {unitId: no_questions_added, group: survey, target: "Nenhuma pergunta adicionada"}
+  - {unitId: add_at_least_one_question, group: survey, target: "Adicione ao menos uma pergunta"}
+  - {unitId: survey_description, group: survey, target: "Descrição"}
+  - {unitId: survey_title, group: survey, target: "Título"}
+  - {unitId: create_survey, group: survey, target: "Criar Pesquisa"}
+  - {unitId: view_results, group: survey, target: "Ver Resultados"}
+  - {unitId: internal_surveys, group: survey, target: "Pesquisas Internas"}
+  - {unitId: created_at, group: survey, target: "Criada em"}
