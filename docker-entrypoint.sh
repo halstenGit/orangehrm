@@ -39,4 +39,15 @@ if [ -f "lib/confs/Conf.php" ] && [ ! -f "lib/confs/.pt_br_seeded" ]; then
     php bin/seed-pt-br.php && touch lib/confs/.pt_br_seeded
 fi
 
+# Pipe Apache + PHP error logs to container stdout/stderr so Railway captures them.
+ln -sf /dev/stderr /var/log/apache2/error.log
+ln -sf /dev/stdout /var/log/apache2/access.log
+ln -sf /dev/stderr /var/log/apache2/other_vhosts_access.log 2>/dev/null || true
+
+# Pipe OHRM application log too (PHP fatals from within the framework).
+mkdir -p src/log
+touch src/log/orangehrm.log
+chown www-data:www-data src/log/orangehrm.log
+tail -F src/log/orangehrm.log >> /dev/stderr 2>/dev/null &
+
 exec "$@"
