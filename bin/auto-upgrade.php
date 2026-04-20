@@ -134,7 +134,19 @@ try {
                 echo "auto-upgrade:  -> applying v$version ($class)\n";
                 $migrationHelper->logMigrationStarted($version);
                 set_time_limit(0);
-                $migration->up();
+                try {
+                    $migration->up();
+                } catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
+                    // Migration was previously partially applied via another path
+                    // (e.g. web installer) so some inserts collide. Treat as
+                    // already-applied: log a warning and continue. Surface the
+                    // message so a real bug doesn't go silently unnoticed.
+                    fwrite(
+                        STDERR,
+                        "auto-upgrade:  !! v$version raised UniqueConstraintViolation (likely partial prior install). "
+                        . "Treating as already-applied. Original: " . $e->getMessage() . "\n"
+                    );
+                }
                 $migrationHelper->logMigrationFinished($version);
             }
 
