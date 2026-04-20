@@ -95,10 +95,14 @@
 </template>
 
 <script>
+import {OxdDialog} from '@ohrm/oxd';
 import {APIService} from '@/core/util/services/api.service';
 import {required} from '@ohrm/core/util/validation/rules';
 
 export default {
+  components: {
+    'oxd-dialog': OxdDialog,
+  },
   data() {
     return {
       catalogo: [],
