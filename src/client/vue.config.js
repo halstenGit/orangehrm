@@ -2,6 +2,7 @@
 const DumpBuildTimestampPlugin = require('./scripts/plugins/DumpBuildTimestampPlugin');
 
 module.exports = {
+  lintOnSave: false,
   css: {
     loaderOptions: {
       sass: {
@@ -23,6 +24,8 @@ module.exports = {
     config.plugins.delete('html');
     config.plugins.delete('preload');
     config.plugins.delete('prefetch');
+    // Skip ESLint during production build — run `yarn lint` manually when needed.
+    config.plugins.delete('eslint');
   },
   publicPath: '.',
   filenameHashing: false,
