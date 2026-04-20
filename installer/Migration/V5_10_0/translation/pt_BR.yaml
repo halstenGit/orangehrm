@@ -1,0 +1,54 @@
+translations:
+  - {unitId: gaa, group: gaa, target: "GAA"}
+  - {unitId: gaa_full_name, group: gaa, target: "Gestão de Acessos e Ativos"}
+  - {unitId: minhas_pendencias, group: gaa, target: "Minhas Pendências"}
+  - {unitId: revisao_ti, group: gaa, target: "Revisão TI"}
+  - {unitId: catalogo, group: gaa, target: "Catálogo"}
+  - {unitId: historico, group: gaa, target: "Histórico"}
+  - {unitId: solicitacao, group: gaa, target: "Solicitação"}
+  - {unitId: solicitacoes, group: gaa, target: "Solicitações"}
+  - {unitId: admissao, group: gaa, target: "Admissão"}
+  - {unitId: desligamento, group: gaa, target: "Desligamento"}
+  - {unitId: acesso, group: gaa, target: "Acesso"}
+  - {unitId: equipamento, group: gaa, target: "Equipamento"}
+  - {unitId: tipo_item, group: gaa, target: "Tipo do Item"}
+  - {unitId: quantidade, group: gaa, target: "Quantidade"}
+  - {unitId: quantidade_padrao, group: gaa, target: "Quantidade Padrão"}
+  - {unitId: item_catalogo, group: gaa, target: "Item do Catálogo"}
+  - {unitId: item_custom, group: gaa, target: "Item Personalizado"}
+  - {unitId: status_pendente_lider, group: gaa, target: "Pendente do Líder"}
+  - {unitId: status_pendente_ti, group: gaa, target: "Pendente do TI"}
+  - {unitId: status_pendente_ti_revisao, group: gaa, target: "Pendente Revisão TI"}
+  - {unitId: status_concluida, group: gaa, target: "Concluída"}
+  - {unitId: status_concluido, group: gaa, target: "Concluído"}
+  - {unitId: status_cancelada, group: gaa, target: "Cancelada"}
+  - {unitId: status_aprovado_adhoc, group: gaa, target: "Aprovado Ad-hoc"}
+  - {unitId: status_promovido, group: gaa, target: "Promovido ao Catálogo"}
+  - {unitId: status_rejeitado, group: gaa, target: "Rejeitado"}
+  - {unitId: aprovar_adhoc, group: gaa, target: "Aprovar Ad-hoc"}
+  - {unitId: promover_catalogo, group: gaa, target: "Promover ao Catálogo"}
+  - {unitId: rejeitar, group: gaa, target: "Rejeitar"}
+  - {unitId: concluir, group: gaa, target: "Concluir"}
+  - {unitId: motivo_rejeicao, group: gaa, target: "Motivo da Rejeição"}
+  - {unitId: observacoes, group: gaa, target: "Observações"}
+  - {unitId: comentario, group: gaa, target: "Comentário"}
+  - {unitId: adicionar_item, group: gaa, target: "Adicionar Item"}
+  - {unitId: editar_item, group: gaa, target: "Editar Item"}
+  - {unitId: funcionario, group: gaa, target: "Funcionário"}
+  - {unitId: lider_responsavel, group: gaa, target: "Líder Responsável"}
+  - {unitId: tipo_solicitacao, group: gaa, target: "Tipo da Solicitação"}
+  - {unitId: criada_em, group: gaa, target: "Criada em"}
+  - {unitId: atualizada_em, group: gaa, target: "Atualizada em"}
+  - {unitId: concluida_em, group: gaa, target: "Concluída em"}
+  - {unitId: itens_solicitacao, group: gaa, target: "Itens da Solicitação"}
+  - {unitId: sem_pendencias, group: gaa, target: "Sem pendências"}
+  - {unitId: adicionar_catalogo, group: gaa, target: "Adicionar ao Catálogo"}
+  - {unitId: editar_item_catalogo, group: gaa, target: "Editar Item do Catálogo"}
+  - {unitId: nome, group: gaa, target: "Nome"}
+  - {unitId: descricao, group: gaa, target: "Descrição"}
+  - {unitId: ativo, group: gaa, target: "Ativo"}
+  - {unitId: inativo, group: gaa, target: "Inativo"}
+  - {unitId: origem_catalogo, group: gaa, target: "Origem do Catálogo"}
+  - {unitId: promovido_da_solicitacao, group: gaa, target: "Promovido da solicitação"}
+  - {unitId: historico_funcionario, group: gaa, target: "Histórico do Funcionário"}
+  - {unitId: selecionar_funcionario, group: gaa, target: "Selecionar Funcionário"}

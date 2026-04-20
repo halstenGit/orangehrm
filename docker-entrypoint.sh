@@ -33,10 +33,11 @@ if [ -f "lib/confs/Conf.php" ]; then
     }
 fi
 
-# Seed pt_BR translations once (after install is complete)
-if [ -f "lib/confs/Conf.php" ] && [ ! -f "lib/confs/.pt_br_seeded" ]; then
+# Seed pt_BR translations on every start (script uses INSERT IGNORE — idempotent).
+# Re-running on each boot lets us pick up new translation YAMLs without manual steps.
+if [ -f "lib/confs/Conf.php" ]; then
     echo ">>> Seeding pt_BR translations..."
-    php bin/seed-pt-br.php && touch lib/confs/.pt_br_seeded
+    php bin/seed-pt-br.php || echo ">>> pt_BR seed failed (non-fatal, continuing)" >&2
 fi
 
 # Pipe Apache + PHP error logs to container stdout/stderr so Railway captures them.
