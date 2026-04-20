@@ -1,0 +1,47 @@
+"View GAA Module":
+  module: gaa
+  url: viewGaaModule
+  permissions:
+    - { role: Admin, permission: { read: true } }
+    - { role: Supervisor, permission: { read: true } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
+
+"GAA Minhas Pendencias":
+  module: gaa
+  url: gaaMinhasPendencias
+  permissions:
+    - { role: Admin, permission: { read: true } }
+    - { role: Supervisor, permission: { read: true } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
+
+"GAA Preencher Solicitacao":
+  module: gaa
+  url: gaaPreencherSolicitacao
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
+    - { role: Supervisor, permission: { read: true, create: true, update: true, delete: true } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
+
+"GAA Revisao TI":
+  module: gaa
+  url: gaaRevisaoTi
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
+    - { role: Supervisor, permission: { read: false, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
+
+"GAA Catalogo":
+  module: gaa
+  url: gaaCatalogo
+  permissions:
+    - { role: Admin, permission: { read: true, create: true, update: true, delete: true } }
+    - { role: Supervisor, permission: { read: true, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
+
+"GAA Historico":
+  module: gaa
+  url: gaaHistorico
+  permissions:
+    - { role: Admin, permission: { read: true } }
+    - { role: Supervisor, permission: { read: true } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }

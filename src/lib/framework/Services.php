@@ -464,4 +464,13 @@ final class Services
      * @see \OrangeHRM\Survey\Service\SurveyService
      */
     public const SURVEY_SERVICE = 'survey.survey_service';
+
+    ///////////////////////////////////////////////////////////////
+    /// GAA plugin services
+    ///////////////////////////////////////////////////////////////
+
+    /**
+     * @see \OrangeHRM\Gaa\Service\GaaService
+     */
+    public const GAA_SERVICE = 'gaa.gaa_service';
 }
