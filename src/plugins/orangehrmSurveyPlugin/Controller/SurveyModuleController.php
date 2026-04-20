@@ -33,6 +33,12 @@ class SurveyModuleController extends AbstractModuleController
     public function handle(): RedirectResponse
     {
         $defaultPath = $this->getUserRoleManager()->getModuleDefaultPage('survey');
+        // Fallback when no default-page mapping exists for 'survey' in
+        // ohrm_home_page / ohrm_module_default_page (the V5_9_0 migration
+        // didn't seed one). Point to the survey list by default.
+        if (empty($defaultPath)) {
+            $defaultPath = 'survey/viewSurveys';
+        }
         return $this->redirect($defaultPath);
     }
 }

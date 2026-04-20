@@ -22,11 +22,10 @@ namespace OrangeHRM\Gaa\Controller;
 use OrangeHRM\Core\Controller\AbstractController;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\Http\Response;
 
 class GaaModuleController extends AbstractController
 {
-    public function handle(Request $request): Response
+    public function handle(Request $request): RedirectResponse
     {
         return new RedirectResponse($request->getBasePath() . '/gaa/gaaMinhasPendencias');
     }
