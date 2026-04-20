@@ -50,7 +50,7 @@ class SurveyModel implements Normalizable
                 'title',
                 'description',
                 'status',
-                'isAnonymous',
+                ['isAnonymous'],
                 'targetType',
                 ['getDecorator', 'getCreatedAtFormatted'],
             ]
