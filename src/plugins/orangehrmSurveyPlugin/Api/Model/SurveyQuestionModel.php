@@ -19,46 +19,39 @@
 
 namespace OrangeHRM\Survey\Api\Model;
 
-use OpenApi\Annotations as OA;
-use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
 use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
 use OrangeHRM\Entity\SurveyQuestion;
+use OrangeHRM\Survey\Traits\Service\SurveyServiceTrait;
 
-/**
- * @OA\Schema(
- *     schema="Survey-SurveyQuestionModel",
- *     type="object",
- *     @OA\Property(property="id", type="integer"),
- *     @OA\Property(property="questionText", type="string"),
- *     @OA\Property(property="questionType", type="string"),
- *     @OA\Property(property="sortOrder", type="integer"),
- *     @OA\Property(property="isRequired", type="boolean")
- * )
- */
 class SurveyQuestionModel implements Normalizable
 {
-    use ModelTrait;
+    use SurveyServiceTrait;
+
+    private SurveyQuestion $question;
 
     public function __construct(SurveyQuestion $question)
     {
-        $this->setEntity($question);
-        $this->setFilters(
-            [
-                'id',
-                'questionText',
-                'questionType',
-                'sortOrder',
-                'isRequired',
-            ]
-        );
-        $this->setAttributeNames(
-            [
-                'id',
-                'questionText',
-                'questionType',
-                'sortOrder',
-                'isRequired',
-            ]
-        );
+        $this->question = $question;
+    }
+
+    public function toArray(): array
+    {
+        $options = $this->getSurveyService()->getOptionsByQuestionId($this->question->getId());
+
+        return [
+            'id' => $this->question->getId(),
+            'questionText' => $this->question->getQuestionText(),
+            'questionType' => $this->question->getQuestionType(),
+            'sortOrder' => $this->question->getSortOrder(),
+            'isRequired' => $this->question->isRequired(),
+            'options' => array_map(
+                static fn ($option) => [
+                    'id' => $option->getId(),
+                    'optionText' => $option->getOptionText(),
+                    'sortOrder' => $option->getSortOrder(),
+                ],
+                $options
+            ),
+        ];
     }
 }
