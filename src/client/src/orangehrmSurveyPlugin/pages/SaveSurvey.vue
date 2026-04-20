@@ -181,11 +181,15 @@ export default {
           return this.$toast.saveSuccess().then(() => response);
         })
         .then((response) => {
-          const savedId = this.id || response.data?.data?.id;
-          if (savedId) {
-            navigate('/survey/surveyBuilder/{id}', {id: savedId});
+          const returnedId =
+            response?.data?.data?.id ??
+            response?.data?.id ??
+            null;
+          const savedId = this.id || returnedId;
+          if (savedId && Number.isFinite(Number(savedId))) {
+            navigate('/survey/surveyBuilder/{id}', {id: Number(savedId)});
           } else {
-            this.onCancel();
+            navigate('/survey/viewSurveys');
           }
         })
         .finally(() => {

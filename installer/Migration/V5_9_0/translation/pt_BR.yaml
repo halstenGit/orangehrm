@@ -68,3 +68,4 @@ translations:
   - {unitId: view_results, group: survey, target: "Ver Resultados"}
   - {unitId: internal_surveys, group: survey, target: "Pesquisas Internas"}
   - {unitId: created_at, group: survey, target: "Criada em"}
+  - {unitId: published_date, group: survey, target: "Data de Publicação"}
