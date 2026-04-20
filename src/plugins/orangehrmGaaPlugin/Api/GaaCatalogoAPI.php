@@ -74,7 +74,7 @@ class GaaCatalogoAPI extends Endpoint implements CrudEndpoint
         return new ParamRuleCollection(
             $this->getValidationDecorator()->notRequiredParamRule(new ParamRule(self::PARAMETER_TIPO_ITEM, new Rule(Rules::IN, [[GaaCatalogo::TIPO_ACESSO, GaaCatalogo::TIPO_EQUIPAMENTO]]))),
             $this->getValidationDecorator()->notRequiredParamRule(new ParamRule(self::PARAMETER_NOME, new Rule(Rules::STRING_TYPE))),
-            $this->getValidationDecorator()->notRequiredParamRule(new ParamRule(self::PARAMETER_ATIVO, new Rule(Rules::IN, [[0, 1]]))),
+            $this->getValidationDecorator()->notRequiredParamRule(new ParamRule(self::PARAMETER_ATIVO, new Rule(Rules::INT_TYPE))),
             ...$this->getSortingAndPaginationParamsRules(GaaCatalogoSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
