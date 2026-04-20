@@ -17,24 +17,36 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace OrangeHRM\Gaa\config;
+namespace OrangeHRM\Gaa\Api\Model;
 
-use OrangeHRM\Core\Traits\EventDispatcherTrait;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
-use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\Gaa\Service\GaaService;
-use OrangeHRM\Gaa\Subscriber\GaaEventSubscriber;
+use OrangeHRM\Core\Api\V2\Serializer\ModelTrait;
+use OrangeHRM\Core\Api\V2\Serializer\Normalizable;
+use OrangeHRM\Entity\GaaCatalogo;
 
-class GaaPluginConfiguration implements PluginConfigurationInterface
+class GaaCatalogoModel implements Normalizable
 {
-    use ServiceContainerTrait;
-    use EventDispatcherTrait;
+    use ModelTrait;
 
-    public function initialize(Request $request): void
+    public function __construct(GaaCatalogo $catalogo)
     {
-        $this->getContainer()->register(Services::GAA_SERVICE, GaaService::class);
-        $this->getEventDispatcher()->addSubscriber(new GaaEventSubscriber());
+        $this->setEntity($catalogo);
+        $this->setFilters([
+            'id',
+            'tipoItem',
+            'nome',
+            'descricao',
+            'quantidadePadrao',
+            'ativo',
+            ['getCriadoDeSolicitacaoItem', 'getId'],
+        ]);
+        $this->setAttributeNames([
+            'id',
+            'tipoItem',
+            'nome',
+            'descricao',
+            'quantidadePadrao',
+            'ativo',
+            'criadoDeSolicitacaoItemId',
+        ]);
     }
 }

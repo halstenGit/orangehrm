@@ -17,24 +17,16 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace OrangeHRM\Gaa\config;
+namespace OrangeHRM\Gaa\Controller;
 
-use OrangeHRM\Core\Traits\EventDispatcherTrait;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Core\Controller\AbstractVueController;
+use OrangeHRM\Core\Vue\Component;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\Gaa\Service\GaaService;
-use OrangeHRM\Gaa\Subscriber\GaaEventSubscriber;
 
-class GaaPluginConfiguration implements PluginConfigurationInterface
+class MinhasPendenciasController extends AbstractVueController
 {
-    use ServiceContainerTrait;
-    use EventDispatcherTrait;
-
-    public function initialize(Request $request): void
+    public function preRender(Request $request): void
     {
-        $this->getContainer()->register(Services::GAA_SERVICE, GaaService::class);
-        $this->getEventDispatcher()->addSubscriber(new GaaEventSubscriber());
+        $this->setComponent(new Component('gaa-minhas-pendencias'));
     }
 }

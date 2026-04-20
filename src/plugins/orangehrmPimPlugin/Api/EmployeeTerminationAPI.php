@@ -30,14 +30,18 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\EventDispatcherTrait;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\EmployeeTerminationRecord;
+use OrangeHRM\Gaa\Event\EmployeeTerminatedEvent;
+use OrangeHRM\Gaa\Event\GaaEvents;
 use OrangeHRM\Pim\Api\Model\EmployeeTerminationModel;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 
 class EmployeeTerminationAPI extends Endpoint implements CrudEndpoint
 {
     use EmployeeServiceTrait;
+    use EventDispatcherTrait;
 
     public const PARAMETER_TERMINATION_REASON_ID = 'terminationReasonId';
     public const PARAMETER_DATE = 'date';
@@ -192,6 +196,12 @@ class EmployeeTerminationAPI extends Endpoint implements CrudEndpoint
 
         $employee->setEmployeeTerminationRecord($employeeTerminationRecord);
         $this->getEmployeeService()->saveEmployee($employee);
+
+        // GAA hook: dispatch event so GAA plugin creates an offboarding request.
+        $this->getEventDispatcher()->dispatch(
+            new EmployeeTerminatedEvent($empNumber),
+            GaaEvents::EMPLOYEE_TERMINATED
+        );
 
         return new EndpointResourceResult(
             EmployeeTerminationModel::class,

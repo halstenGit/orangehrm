@@ -17,24 +17,17 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace OrangeHRM\Gaa\config;
+namespace OrangeHRM\Gaa\Controller;
 
-use OrangeHRM\Core\Traits\EventDispatcherTrait;
-use OrangeHRM\Core\Traits\ServiceContainerTrait;
+use OrangeHRM\Core\Controller\AbstractController;
+use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
-use OrangeHRM\Framework\PluginConfigurationInterface;
-use OrangeHRM\Framework\Services;
-use OrangeHRM\Gaa\Service\GaaService;
-use OrangeHRM\Gaa\Subscriber\GaaEventSubscriber;
+use OrangeHRM\Framework\Http\Response;
 
-class GaaPluginConfiguration implements PluginConfigurationInterface
+class GaaModuleController extends AbstractController
 {
-    use ServiceContainerTrait;
-    use EventDispatcherTrait;
-
-    public function initialize(Request $request): void
+    public function handle(Request $request): Response
     {
-        $this->getContainer()->register(Services::GAA_SERVICE, GaaService::class);
-        $this->getEventDispatcher()->addSubscriber(new GaaEventSubscriber());
+        return new RedirectResponse($request->getBasePath() . '/gaa/gaaMinhasPendencias');
     }
 }
