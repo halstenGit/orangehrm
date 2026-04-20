@@ -147,7 +147,7 @@ export default {
           this.survey = {
             title: data.title,
             description: data.description,
-            anonymous: data.anonymous,
+            anonymous: data.isAnonymous,
             targetType: this.targetTypeOptions.find(
               (opt) => opt.id === data.targetType,
             ) || null,
@@ -168,7 +168,7 @@ export default {
       const payload = {
         title: this.survey.title.trim(),
         description: this.survey.description,
-        anonymous: this.survey.anonymous,
+        isAnonymous: this.survey.anonymous,
         targetType: this.survey.targetType?.id || null,
       };
 
