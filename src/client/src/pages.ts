@@ -34,6 +34,7 @@ import buzzPages from '@/orangehrmBuzzPlugin';
 import systemCheckPages from '@/orangehrmSystemCheckPlugin';
 import claimPages from '@/orangehrmClaimPlugin';
 import surveyPages from '@/orangehrmSurveyPlugin';
+import gaaPages from '@/orangehrmGaaPlugin';
 
 export default {
   ...AdminPages,
@@ -55,4 +56,5 @@ export default {
   ...systemCheckPages,
   ...claimPages,
   ...surveyPages,
+  ...gaaPages,
 };
