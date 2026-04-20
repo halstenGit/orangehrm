@@ -56,8 +56,8 @@ try {
     $instanceVersion = $dbalConnection->createQueryBuilder()
         ->select('value')
         ->from('hs_hr_config')
-        ->where('`key` = :key')
-        ->setParameter('key', 'instance.version')
+        ->where('name = :name')
+        ->setParameter('name', 'instance.version')
         ->executeQuery()
         ->fetchOne();
 
@@ -116,8 +116,8 @@ try {
             $dbalConnection->createQueryBuilder()
                 ->update('hs_hr_config')
                 ->set('value', ':value')
-                ->where('`key` = :key')
-                ->setParameter('key', 'instance.version')
+                ->where('name = :name')
+                ->setParameter('name', 'instance.version')
                 ->setParameter('value', $version)
                 ->executeStatement();
             $migrationHelper->logMigrationFinished($version);
