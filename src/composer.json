@@ -82,6 +82,8 @@
             "OrangeHRM\\SystemCheck\\": "./plugins/orangehrmSystemCheckPlugin",
             "OrangeHRM\\Mobile\\": "./plugins/orangehrmMobilePlugin",
             "OrangeHRM\\Claim\\": "./plugins/orangehrmClaimPlugin",
+            "OrangeHRM\\Survey\\": "./plugins/orangehrmSurveyPlugin",
+            "OrangeHRM\\Gaa\\": "./plugins/orangehrmGaaPlugin",
             "OrangeHRM\\Installer\\": "../installer",
             "OrangeHRM\\Entity\\": [
                 "./plugins/orangehrmAdminPlugin/entity",
@@ -99,7 +101,9 @@
                 "./plugins/orangehrmLDAPAuthenticationPlugin/entity",
                 "./plugins/orangehrmBuzzPlugin/entity",
                 "./plugins/orangehrmClaimPlugin/entity",
-                "./plugins/orangehrmOpenidAuthenticationPlugin/entity"
+                "./plugins/orangehrmOpenidAuthenticationPlugin/entity",
+                "./plugins/orangehrmSurveyPlugin/entity",
+                "./plugins/orangehrmGaaPlugin/entity"
             ]
         }
     },

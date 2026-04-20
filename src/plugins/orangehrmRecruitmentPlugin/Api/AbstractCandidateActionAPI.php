@@ -32,6 +32,7 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
 use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
+use OrangeHRM\Core\Traits\EventDispatcherTrait;
 use OrangeHRM\Core\Traits\ORM\EntityManagerHelperTrait;
 use OrangeHRM\Core\Traits\Service\DateTimeHelperTrait;
 use OrangeHRM\Core\Traits\UserRoleManagerTrait;
@@ -41,6 +42,8 @@ use OrangeHRM\Entity\CandidateVacancy;
 use OrangeHRM\Entity\Employee;
 use OrangeHRM\Entity\Vacancy;
 use OrangeHRM\Entity\WorkflowStateMachine;
+use OrangeHRM\Gaa\Event\CandidateHiredEvent;
+use OrangeHRM\Gaa\Event\GaaEvents;
 use OrangeHRM\ORM\Exception\TransactionException;
 use OrangeHRM\Pim\Traits\Service\EmployeeServiceTrait;
 use OrangeHRM\Recruitment\Api\Model\CandidateHistoryDefaultModel;
@@ -55,6 +58,7 @@ abstract class AbstractCandidateActionAPI extends Endpoint implements ResourceEn
     use DateTimeHelperTrait;
     use UserRoleManagerTrait;
     use EmployeeServiceTrait;
+    use EventDispatcherTrait;
 
     public const PARAMETER_CANDIDATE_ID = 'candidateId';
     public const PARAMETER_INTERVIEW_ID = 'interviewId';
@@ -126,6 +130,12 @@ abstract class AbstractCandidateActionAPI extends Endpoint implements ResourceEn
                 $employee = new Employee();
                 $this->setCandidateAsEmployee($candidateVacancy, $employee);
                 $this->getEmployeeService()->getEmployeeDao()->saveEmployee($employee);
+
+                // GAA hook: dispatch event so GAA plugin creates an onboarding request.
+                $this->getEventDispatcher()->dispatch(
+                    new CandidateHiredEvent($employee->getEmpNumber()),
+                    GaaEvents::CANDIDATE_HIRED
+                );
             }
 
             $candidateHistory = new CandidateHistory();

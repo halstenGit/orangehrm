@@ -1,0 +1,122 @@
+##########################
+#          API
+##########################
+
+apiv2_gaa_solicitacoes:
+  path: /api/v2/gaa/solicitacoes
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Gaa\Api\GaaSolicitacaoAPI
+
+apiv2_gaa_solicitacao:
+  path: /api/v2/gaa/solicitacoes/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Gaa\Api\GaaSolicitacaoAPI
+  requirements:
+    id: '\d+'
+
+apiv2_gaa_solicitacao_itens:
+  path: /api/v2/gaa/solicitacoes/{solicitacaoId}/itens
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Gaa\Api\GaaSolicitacaoItemAPI
+  requirements:
+    solicitacaoId: '\d+'
+
+apiv2_gaa_solicitacao_item:
+  path: /api/v2/gaa/solicitacoes/{solicitacaoId}/itens/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT, DELETE ]
+  defaults:
+    _api: OrangeHRM\Gaa\Api\GaaSolicitacaoItemAPI
+  requirements:
+    solicitacaoId: '\d+'
+    id: '\d+'
+
+apiv2_gaa_catalogo_list:
+  path: /api/v2/gaa/catalogo
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, POST, DELETE ]
+  defaults:
+    _api: OrangeHRM\Gaa\Api\GaaCatalogoAPI
+
+apiv2_gaa_catalogo_item:
+  path: /api/v2/gaa/catalogo/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Gaa\Api\GaaCatalogoAPI
+  requirements:
+    id: '\d+'
+
+apiv2_gaa_revisao_ti:
+  path: /api/v2/gaa/revisao-ti
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Gaa\Api\GaaRevisaoTiAPI
+
+apiv2_gaa_revisao_ti_acao:
+  path: /api/v2/gaa/revisao-ti/{id}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ PUT ]
+  defaults:
+    _api: OrangeHRM\Gaa\Api\GaaRevisaoTiAPI
+  requirements:
+    id: '\d+'
+
+apiv2_gaa_minhas_pendencias:
+  path: /api/v2/gaa/minhas-pendencias
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Gaa\Api\GaaMinhasPendenciasAPI
+
+apiv2_gaa_historico:
+  path: /api/v2/gaa/historico/{empNumber}
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET ]
+  defaults:
+    _api: OrangeHRM\Gaa\Api\GaaHistoricoAPI
+  requirements:
+    empNumber: '\d+'
+
+##########################
+#        Screens
+##########################
+
+gaa_module:
+  path: /gaa/viewGaaModule
+  controller: OrangeHRM\Gaa\Controller\GaaModuleController::handle
+  methods: [ GET ]
+
+gaa_minhas_pendencias:
+  path: /gaa/gaaMinhasPendencias
+  controller: OrangeHRM\Gaa\Controller\MinhasPendenciasController::handle
+  methods: [ GET ]
+
+gaa_preencher_solicitacao:
+  path: /gaa/gaaPreencherSolicitacao/{id}
+  controller: OrangeHRM\Gaa\Controller\PreencherSolicitacaoController::handle
+  methods: [ GET ]
+  requirements:
+    id: '\d+'
+
+gaa_revisao_ti:
+  path: /gaa/gaaRevisaoTi
+  controller: OrangeHRM\Gaa\Controller\RevisaoTiController::handle
+  methods: [ GET ]
+
+gaa_catalogo:
+  path: /gaa/gaaCatalogo
+  controller: OrangeHRM\Gaa\Controller\CatalogoController::handle
+  methods: [ GET ]
+
+gaa_historico:
+  path: /gaa/gaaHistorico
+  controller: OrangeHRM\Gaa\Controller\HistoricoController::handle
+  methods: [ GET ]

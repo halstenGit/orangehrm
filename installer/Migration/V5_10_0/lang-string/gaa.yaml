@@ -1,0 +1,160 @@
+langStrings:
+  -
+    value: "GAA"
+    unitId: gaa
+  -
+    value: "Gestão de Acessos e Ativos"
+    unitId: gaa_full_name
+  -
+    value: "Minhas Pendências"
+    unitId: minhas_pendencias
+  -
+    value: "Revisão TI"
+    unitId: revisao_ti
+  -
+    value: "Catálogo"
+    unitId: catalogo
+  -
+    value: "Histórico"
+    unitId: historico
+  -
+    value: "Solicitação"
+    unitId: solicitacao
+  -
+    value: "Solicitações"
+    unitId: solicitacoes
+  -
+    value: "Admissão"
+    unitId: admissao
+  -
+    value: "Desligamento"
+    unitId: desligamento
+  -
+    value: "Acesso"
+    unitId: acesso
+  -
+    value: "Equipamento"
+    unitId: equipamento
+  -
+    value: "Tipo do Item"
+    unitId: tipo_item
+  -
+    value: "Quantidade"
+    unitId: quantidade
+  -
+    value: "Quantidade Padrão"
+    unitId: quantidade_padrao
+  -
+    value: "Item do Catálogo"
+    unitId: item_catalogo
+  -
+    value: "Item Personalizado"
+    unitId: item_custom
+  -
+    value: "Pendente do Líder"
+    unitId: status_pendente_lider
+  -
+    value: "Pendente do TI"
+    unitId: status_pendente_ti
+  -
+    value: "Pendente Revisão TI"
+    unitId: status_pendente_ti_revisao
+  -
+    value: "Concluída"
+    unitId: status_concluida
+  -
+    value: "Concluído"
+    unitId: status_concluido
+  -
+    value: "Cancelada"
+    unitId: status_cancelada
+  -
+    value: "Aprovado Ad-hoc"
+    unitId: status_aprovado_adhoc
+  -
+    value: "Promovido ao Catálogo"
+    unitId: status_promovido
+  -
+    value: "Rejeitado"
+    unitId: status_rejeitado
+  -
+    value: "Aprovar Ad-hoc"
+    unitId: aprovar_adhoc
+  -
+    value: "Promover ao Catálogo"
+    unitId: promover_catalogo
+  -
+    value: "Rejeitar"
+    unitId: rejeitar
+  -
+    value: "Concluir"
+    unitId: concluir
+  -
+    value: "Motivo da Rejeição"
+    unitId: motivo_rejeicao
+  -
+    value: "Observações"
+    unitId: observacoes
+  -
+    value: "Comentário"
+    unitId: comentario
+  -
+    value: "Adicionar Item"
+    unitId: adicionar_item
+  -
+    value: "Editar Item"
+    unitId: editar_item
+  -
+    value: "Funcionário"
+    unitId: funcionario
+  -
+    value: "Líder Responsável"
+    unitId: lider_responsavel
+  -
+    value: "Tipo da Solicitação"
+    unitId: tipo_solicitacao
+  -
+    value: "Criada em"
+    unitId: criada_em
+  -
+    value: "Atualizada em"
+    unitId: atualizada_em
+  -
+    value: "Concluída em"
+    unitId: concluida_em
+  -
+    value: "Itens da Solicitação"
+    unitId: itens_solicitacao
+  -
+    value: "Sem pendências"
+    unitId: sem_pendencias
+  -
+    value: "Adicionar ao Catálogo"
+    unitId: adicionar_catalogo
+  -
+    value: "Editar Item do Catálogo"
+    unitId: editar_item_catalogo
+  -
+    value: "Nome"
+    unitId: nome
+  -
+    value: "Descrição"
+    unitId: descricao
+  -
+    value: "Ativo"
+    unitId: ativo
+  -
+    value: "Inativo"
+    unitId: inativo
+  -
+    value: "Origem do Catálogo"
+    unitId: origem_catalogo
+  -
+    value: "Promovido da solicitação"
+    unitId: promovido_da_solicitacao
+  -
+    value: "Histórico do Funcionário"
+    unitId: historico_funcionario
+  -
+    value: "Selecionar Funcionário"
+    unitId: selecionar_funcionario
