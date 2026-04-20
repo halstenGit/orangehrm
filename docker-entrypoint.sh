@@ -24,6 +24,15 @@ if [ ! -f "lib/confs/Conf.php" ]; then
     echo ">>> Access the app URL to begin setup"
 fi
 
+# Auto-apply pending migrations (idempotent — no-op if at latest version)
+if [ -f "lib/confs/Conf.php" ]; then
+    echo ">>> Running auto-upgrade (apply pending migrations)..."
+    php bin/auto-upgrade.php || {
+        echo ">>> auto-upgrade failed — refusing to start app to avoid serving with stale schema" >&2
+        exit 1
+    }
+fi
+
 # Seed pt_BR translations once (after install is complete)
 if [ -f "lib/confs/Conf.php" ] && [ ! -f "lib/confs/.pt_br_seeded" ]; then
     echo ">>> Seeding pt_BR translations..."
