@@ -216,7 +216,12 @@ class GaaDao extends BaseDao
         $historico->setUser($user);
         $historico->setAcao($acao);
         $historico->setComentario($comentario);
-        $historico->setPayloadJson($payload !== null ? json_encode($payload) : null);
+        if ($payload !== null) {
+            $encoded = json_encode($payload);
+            $historico->setPayloadJson($encoded === false ? null : $encoded);
+        } else {
+            $historico->setPayloadJson(null);
+        }
         $historico->setCriadoEm(new DateTime());
         $this->persist($historico);
         return $historico;

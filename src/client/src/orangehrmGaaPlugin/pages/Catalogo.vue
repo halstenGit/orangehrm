@@ -140,9 +140,11 @@ export default {
     },
     async salvar() {
       const http = new APIService(window.appGlobal.baseUrl, '/api/v2/gaa/catalogo');
+      const tipoRaw = this.form.tipoItem;
       const payload = {
         nome: this.form.nome,
-        tipoItem: this.form.tipoItem?.id || this.form.tipoItem,
+        tipoItem:
+          (tipoRaw && typeof tipoRaw === 'object' ? tipoRaw.id : tipoRaw) || null,
         quantidadePadrao: parseInt(this.form.quantidadePadrao, 10) || 1,
         descricao: this.form.descricao,
       };

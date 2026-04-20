@@ -227,9 +227,13 @@ export default {
         window.appGlobal.baseUrl,
         `/api/v2/gaa/solicitacoes/${this.id}/itens`,
       );
+      const tipoRaw = this.novoItem.tipoItem;
+      const catRaw = this.novoItem.catalogoId;
       await http.create({
-        tipoItem: this.novoItem.tipoItem?.id || this.novoItem.tipoItem,
-        catalogoId: this.novoItem.catalogoId?.id || null,
+        tipoItem:
+          (tipoRaw && typeof tipoRaw === 'object' ? tipoRaw.id : tipoRaw) || null,
+        catalogoId:
+          (catRaw && typeof catRaw === 'object' ? catRaw.id : catRaw) || null,
         labelCustom: this.novoItem.labelCustom || null,
         quantidade: parseInt(this.novoItem.quantidade, 10) || 1,
         observacoes: this.novoItem.observacoes || null,
