@@ -39,11 +39,11 @@ class GaaEventSubscriber extends AbstractEventSubscriber
 
     public function onCandidateHired(CandidateHiredEvent $event): void
     {
-        $this->getGaaService()->getGaaDao()->criarSolicitacaoAdmissao($event->getEmpNumber());
+        $this->getGaaService()->criarSolicitacaoAdmissao($event->getEmpNumber());
     }
 
     public function onEmployeeTerminated(EmployeeTerminatedEvent $event): void
     {
-        $this->getGaaService()->getGaaDao()->criarSolicitacaoDesligamento($event->getEmpNumber());
+        $this->getGaaService()->criarSolicitacaoDesligamento($event->getEmpNumber());
     }
 }

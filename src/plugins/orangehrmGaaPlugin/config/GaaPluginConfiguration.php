@@ -19,6 +19,7 @@
 
 namespace OrangeHRM\Gaa\config;
 
+use OrangeHRM\Core\Traits\EventDispatcherTrait;
 use OrangeHRM\Core\Traits\ServiceContainerTrait;
 use OrangeHRM\Framework\Http\Request;
 use OrangeHRM\Framework\PluginConfigurationInterface;
@@ -29,12 +30,11 @@ use OrangeHRM\Gaa\Subscriber\GaaEventSubscriber;
 class GaaPluginConfiguration implements PluginConfigurationInterface
 {
     use ServiceContainerTrait;
+    use EventDispatcherTrait;
 
     public function initialize(Request $request): void
     {
         $this->getContainer()->register(Services::GAA_SERVICE, GaaService::class);
-
-        $dispatcher = $this->getContainer()->get(Services::EVENT_DISPATCHER);
-        $dispatcher->addSubscriber(new GaaEventSubscriber());
+        $this->getEventDispatcher()->addSubscriber(new GaaEventSubscriber());
     }
 }
