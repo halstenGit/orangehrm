@@ -1,0 +1,11 @@
+translations:
+  - {unitId: acao_criado, group: gaa, target: "Criado"}
+  - {unitId: acao_atualizado, group: gaa, target: "Atualizado"}
+  - {unitId: acao_comentario, group: gaa, target: "Comentário"}
+  - {unitId: acao_aprovado_adhoc, group: gaa, target: "Aprovado Ad-hoc"}
+  - {unitId: acao_promovido_catalogo, group: gaa, target: "Promovido ao Catálogo"}
+  - {unitId: acao_rejeitado, group: gaa, target: "Rejeitado"}
+  - {unitId: acao_concluido, group: gaa, target: "Concluído"}
+  - {unitId: confirmar_conclusao, group: gaa, target: "Confirmar conclusão desta solicitação?"}
+  - {unitId: confirmar_exclusao, group: gaa, target: "Confirmar exclusão?"}
+  - {unitId: informe_catalogo_ou_custom, group: gaa, target: "Informe um item do catálogo ou descreva um item customizado."}

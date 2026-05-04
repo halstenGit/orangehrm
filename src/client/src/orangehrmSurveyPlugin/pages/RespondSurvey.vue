@@ -226,9 +226,11 @@ export default {
         .then((response) => {
           const data = response.data?.data;
           if (data) {
+            // API returns {survey: {title, description, ...}, questions: [...]}
+            const surveyData = data.survey || {};
             this.survey = {
-              title: data.title || '',
-              description: data.description || '',
+              title: surveyData.title || '',
+              description: surveyData.description || '',
             };
             this.questions = data.questions || [];
             // Initialize answers map

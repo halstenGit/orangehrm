@@ -43,7 +43,7 @@
       <div v-for="h in historico" :key="h.id" class="gaa-timeline-item">
         <div class="gaa-timeline-date">{{ h.criadoEm }}</div>
         <div class="gaa-timeline-acao">
-          <strong>{{ h.acao }}</strong>
+          <strong>{{ acaoLabel(h.acao) }}</strong>
           <span v-if="h.usuario"> — {{ h.usuario.username }}</span>
         </div>
         <div v-if="h.comentario" class="gaa-timeline-comentario">{{ h.comentario }}</div>
@@ -80,6 +80,13 @@ export default {
       const res = await http.getAll({});
       this.historico = res.data?.data || [];
       this.searched = true;
+    },
+    acaoLabel(acao) {
+      // Backend usa enums em SCREAMING_SNAKE_CASE; i18n usa lower_case com prefixo "acao_".
+      const key = 'gaa.acao_' + String(acao || '').toLowerCase();
+      const translated = this.$t(key);
+      // Fallback: se a chave não existe, retorna o enum original em vez de "gaa.acao_xxx" cru.
+      return translated === key ? acao : translated;
     },
   },
 };

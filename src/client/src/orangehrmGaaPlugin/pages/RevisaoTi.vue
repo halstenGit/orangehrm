@@ -40,7 +40,7 @@
         <tbody>
           <tr v-for="item in itens" :key="item.id">
             <td>#{{ item.solicitacaoId }}</td>
-            <td>{{ item.tipoItem }}</td>
+            <td>{{ tipoItemLabel(item.tipoItem) }}</td>
             <td>{{ item.labelCustom }}</td>
             <td>{{ item.quantidade }}</td>
             <td>{{ item.observacoes }}</td>
@@ -72,19 +72,25 @@
       </div>
     </div>
 
-    <oxd-dialog v-if="rejecting" @update:show="rejecting = false">
+    <oxd-dialog v-if="rejecting" :show="rejecting" @update:show="rejecting = false">
       <template #header>
         <oxd-text type="card-title">{{ $t('gaa.motivo_rejeicao') }}</oxd-text>
       </template>
       <oxd-input-field v-model="motivoRejeicao" type="textarea" />
-      <template #footer>
-        <oxd-button :label="$t('general.cancel')" @click="rejecting = false" />
+      <oxd-form-actions>
         <oxd-button
+          type="button"
+          :label="$t('general.cancel')"
+          display-type="ghost"
+          @click="rejecting = false"
+        />
+        <oxd-button
+          type="button"
           :label="$t('gaa.rejeitar')"
           display-type="secondary"
           @click="confirmarRejeicao"
         />
-      </template>
+      </oxd-form-actions>
     </oxd-dialog>
   </div>
 </template>
@@ -103,6 +109,10 @@ export default {
       rejecting: false,
       itemRejId: null,
       motivoRejeicao: '',
+      tipoItemLabels: {
+        ACESSO: this.$t('gaa.acesso'),
+        EQUIPAMENTO: this.$t('gaa.equipamento'),
+      },
     };
   },
   beforeMount() {
@@ -129,6 +139,9 @@ export default {
       await http.update(this.itemRejId, {acao: 'REJEITAR', motivo: this.motivoRejeicao});
       this.rejecting = false;
       this.fetch();
+    },
+    tipoItemLabel(tipo) {
+      return this.tipoItemLabels[tipo] || tipo;
     },
   },
 };

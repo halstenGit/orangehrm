@@ -62,9 +62,9 @@ class GaaSolicitacaoItem
     private ?string $labelCustom = null;
 
     /**
-     * @ORM\Column(name="tipo_item", type="string", length=20, nullable=false)
+     * @ORM\Column(name="tipo_item", type="string", length=20, nullable=false, options={"default":"ACESSO"})
      */
-    private string $tipoItem;
+    private string $tipoItem = self::TIPO_ACESSO;
 
     /**
      * @ORM\Column(name="quantidade", type="integer", nullable=false, options={"default":1})

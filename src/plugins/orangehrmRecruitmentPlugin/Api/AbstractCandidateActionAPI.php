@@ -86,6 +86,7 @@ abstract class AbstractCandidateActionAPI extends Endpoint implements ResourceEn
      */
     public function update(): EndpointResult
     {
+        $hiredEmpNumber = null;
         $this->beginTransaction();
         try {
             $candidateId = $this->getRequestParams()->getInt(
@@ -130,12 +131,7 @@ abstract class AbstractCandidateActionAPI extends Endpoint implements ResourceEn
                 $employee = new Employee();
                 $this->setCandidateAsEmployee($candidateVacancy, $employee);
                 $this->getEmployeeService()->getEmployeeDao()->saveEmployee($employee);
-
-                // GAA hook: dispatch event so GAA plugin creates an onboarding request.
-                $this->getEventDispatcher()->dispatch(
-                    new CandidateHiredEvent($employee->getEmpNumber()),
-                    GaaEvents::CANDIDATE_HIRED
-                );
+                $hiredEmpNumber = $employee->getEmpNumber();
             }
 
             $candidateHistory = new CandidateHistory();
@@ -143,7 +139,6 @@ abstract class AbstractCandidateActionAPI extends Endpoint implements ResourceEn
             $result = $this->getCandidateService()->getCandidateDao()->saveCandidateHistory($candidateHistory);
 
             $this->commitTransaction();
-            return new EndpointResourceResult(CandidateHistoryDefaultModel::class, $result);
         } catch (RecordNotFoundException|ForbiddenException $e) {
             $this->rollBackTransaction();
             throw $e;
@@ -151,6 +146,17 @@ abstract class AbstractCandidateActionAPI extends Endpoint implements ResourceEn
             $this->rollBackTransaction();
             throw new TransactionException($e);
         }
+
+        // GAA hook: dispatched OUTSIDE the transaction so subscriber failures
+        // (e.g. supervisor lookup, downstream provisioning) cannot abort the hire.
+        if ($hiredEmpNumber !== null) {
+            $this->getEventDispatcher()->dispatch(
+                new CandidateHiredEvent($hiredEmpNumber),
+                GaaEvents::CANDIDATE_HIRED
+            );
+        }
+
+        return new EndpointResourceResult(CandidateHistoryDefaultModel::class, $result);
     }
 
     /**

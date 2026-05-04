@@ -54,7 +54,6 @@ export default {
           name: 'employee',
           title: this.$t('gaa.funcionario'),
           style: {flex: 3},
-          slot: 'employee',
         },
         {
           name: 'tipo',
@@ -78,7 +77,7 @@ export default {
           style: {flex: 1},
           cellType: 'oxd-table-cell-actions',
           cellConfig: {
-            abrir: {
+            edit: {
               onClick: this.onClickAbrir,
               component: 'oxd-button',
               props: {

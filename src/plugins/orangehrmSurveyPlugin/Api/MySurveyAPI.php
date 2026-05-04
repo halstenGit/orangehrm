@@ -72,23 +72,42 @@ class MySurveyAPI extends Endpoint implements CollectionEndpoint, ResourceEndpoi
     public function getAll(): EndpointResult
     {
         $empNumber = $this->getAuthUser()->getEmpNumber();
+        if ($empNumber === null) {
+            // Usuário sem Employee vinculado não tem surveys p/ responder.
+            return new EndpointCollectionResult(
+                ArrayModel::class,
+                [],
+                new ParameterBag([CommonParams::PARAMETER_TOTAL => 0])
+            );
+        }
 
         $filterParams = new SurveySearchFilterParams();
         $this->setSortingAndPaginationParams($filterParams);
         // Fetch all PUBLISHED surveys, then filter by targeting
         $filterParams->setStatus(Survey::STATUS_PUBLISHED);
         $allPublished = $this->getSurveyService()->getSurveyList($filterParams);
-        $surveys = array_filter(
+        $targeted = array_values(array_filter(
             $allPublished,
             fn ($survey) => $this->getSurveyService()->isEmployeeTargeted($survey->getId(), $empNumber)
-        );
-        $surveys = array_values($surveys);
-        $count = count($surveys);
+        ));
+
+        // Anexa responseStatus e publishedAt em cada item — campos que a UI consome
+        // mas que SurveyModel não emite por padrão.
+        $items = array_map(function ($survey) use ($empNumber) {
+            $row = (new SurveyModel($survey))->toArray();
+            $row['publishedAt'] = $survey->getPublishedAt() !== null
+                ? $survey->getPublishedAt()->format('Y-m-d H:i:s')
+                : null;
+            $row['responseStatus'] = $this->getSurveyService()->hasEmployeeResponded($survey->getId(), $empNumber)
+                ? 'RESPONDED'
+                : 'PENDING';
+            return $row;
+        }, $targeted);
 
         return new EndpointCollectionResult(
-            SurveyModel::class,
-            $surveys,
-            new ParameterBag([CommonParams::PARAMETER_TOTAL => $count])
+            ArrayModel::class,
+            $items,
+            new ParameterBag([CommonParams::PARAMETER_TOTAL => count($items)])
         );
     }
 
@@ -131,6 +150,18 @@ class MySurveyAPI extends Endpoint implements CollectionEndpoint, ResourceEndpoi
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $survey = $this->getSurveyService()->getSurveyById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($survey, Survey::class);
+
+        // Apenas surveys PUBLISHED são visíveis em "minhas surveys" — DRAFT/CLOSED não vazam por id.
+        if ($survey->getStatus() !== Survey::STATUS_PUBLISHED) {
+            $this->throwRecordNotFoundExceptionIfNotExist(null, Survey::class);
+        }
+
+        $empNumber = $this->getAuthUser()->getEmpNumber();
+        if ($empNumber === null
+            || !$this->getSurveyService()->isEmployeeTargeted($id, $empNumber)
+        ) {
+            $this->throwRecordNotFoundExceptionIfNotExist(null, Survey::class);
+        }
 
         $questions = $this->getSurveyService()->getQuestionsBySurveyId($id);
 

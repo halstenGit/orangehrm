@@ -378,6 +378,18 @@ class SurveyQuestionAPI extends Endpoint implements CrudEndpoint
      */
     public function delete(): EndpointResult
     {
+        $surveyId = $this->getRequestParams()->getInt(
+            RequestParams::PARAM_TYPE_ATTRIBUTE,
+            self::PARAMETER_SURVEY_ID
+        );
+        $survey = $this->getSurveyService()->getSurveyById($surveyId);
+        $this->throwRecordNotFoundExceptionIfNotExist($survey, Survey::class);
+
+        // Não permite excluir questões de surveys já publicados/fechados — preserva integridade dos resultados.
+        if ($survey->getStatus() !== Survey::STATUS_DRAFT) {
+            throw $this->getForbiddenException();
+        }
+
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_IDS);
         $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
         $this->getSurveyService()->deleteQuestions($ids);

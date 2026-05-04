@@ -130,8 +130,8 @@ export default {
         {id: 'SPECIFIC', label: this.$t('survey.specific_employees')},
       ],
       rules: {
-        title: [required, shouldNotExceedCharLength(200)],
-        description: [shouldNotExceedCharLength(1000)],
+        title: [required, shouldNotExceedCharLength(255)],
+        description: [shouldNotExceedCharLength(255)],
         targetType: [required],
       },
     };

@@ -182,6 +182,16 @@ class SurveyService
     }
 
     /**
+     * @param int $surveyId
+     * @param int[] $ids
+     * @return int
+     */
+    public function deleteTargetsByIds(int $surveyId, array $ids): int
+    {
+        return $this->getSurveyDao()->deleteTargetsByIds($surveyId, $ids);
+    }
+
+    /**
      * @param SurveyResponse $response
      * @return SurveyResponse
      */

@@ -19,15 +19,18 @@
 
 namespace OrangeHRM\Gaa\Subscriber;
 
+use OrangeHRM\Core\Traits\LoggerTrait;
 use OrangeHRM\Framework\Event\AbstractEventSubscriber;
 use OrangeHRM\Gaa\Event\CandidateHiredEvent;
 use OrangeHRM\Gaa\Event\EmployeeTerminatedEvent;
 use OrangeHRM\Gaa\Event\GaaEvents;
 use OrangeHRM\Gaa\Traits\Service\GaaServiceTrait;
+use Throwable;
 
 class GaaEventSubscriber extends AbstractEventSubscriber
 {
     use GaaServiceTrait;
+    use LoggerTrait;
 
     public static function getSubscribedEvents(): array
     {
@@ -39,11 +42,28 @@ class GaaEventSubscriber extends AbstractEventSubscriber
 
     public function onCandidateHired(CandidateHiredEvent $event): void
     {
-        $this->getGaaService()->criarSolicitacaoAdmissao($event->getEmpNumber());
+        try {
+            $this->getGaaService()->criarSolicitacaoAdmissao($event->getEmpNumber());
+        } catch (Throwable $e) {
+            // Never propagate: hire/terminate must not be aborted by GAA provisioning failures.
+            $this->getLogger()->error(
+                'GAA: falha ao criar solicitação de admissão para empNumber=' . $event->getEmpNumber()
+                . ' — ' . $e->getMessage(),
+                ['exception' => $e]
+            );
+        }
     }
 
     public function onEmployeeTerminated(EmployeeTerminatedEvent $event): void
     {
-        $this->getGaaService()->criarSolicitacaoDesligamento($event->getEmpNumber());
+        try {
+            $this->getGaaService()->criarSolicitacaoDesligamento($event->getEmpNumber());
+        } catch (Throwable $e) {
+            $this->getLogger()->error(
+                'GAA: falha ao criar solicitação de desligamento para empNumber=' . $event->getEmpNumber()
+                . ' — ' . $e->getMessage(),
+                ['exception' => $e]
+            );
+        }
     }
 }

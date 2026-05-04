@@ -157,8 +157,11 @@ class GaaCatalogoAPI extends Endpoint implements CrudEndpoint
         if ($nome !== null) {
             $catalogo->setNome($nome);
         }
-        $descricao = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DESCRICAO);
-        $catalogo->setDescricao($descricao);
+        // Só sobrescreve descricao se a chave veio no body — evita clobber em PUT parcial.
+        if ($this->getRequestParams()->has(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DESCRICAO)) {
+            $descricao = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_DESCRICAO);
+            $catalogo->setDescricao($descricao);
+        }
         $qtd = $this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_QUANTIDADE_PADRAO);
         if ($qtd !== null) {
             $catalogo->setQuantidadePadrao($qtd);

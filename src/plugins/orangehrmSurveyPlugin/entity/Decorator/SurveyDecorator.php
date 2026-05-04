@@ -65,6 +65,12 @@ class SurveyDecorator
     public function getCreatedAtFormatted(): ?string
     {
         $createdAt = $this->getSurvey()->getCreatedAt();
-        return $this->getDateTimeHelper()->formatDateTimeToYmd($createdAt);
+        if ($createdAt === null) {
+            return null;
+        }
+        // Inclui o componente horário — a coluna é datetime, perder a hora dificulta a auditoria.
+        $date = $this->getDateTimeHelper()->formatDateTimeToYmd($createdAt);
+        $time = $this->getDateTimeHelper()->formatDateTimeToTimeString($createdAt);
+        return $date . ' ' . $time;
     }
 }

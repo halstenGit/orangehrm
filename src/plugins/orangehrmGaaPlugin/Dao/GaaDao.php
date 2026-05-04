@@ -45,6 +45,26 @@ class GaaDao extends BaseDao
 
     private function criarSolicitacao(int $empNumber, string $tipo, ?int $liderEmpNumber): GaaSolicitacao
     {
+        // Dedupe: se já existe solicitação aberta (não concluída/cancelada) para o mesmo
+        // employee + tipo, retorna a existente para evitar duplicatas em retries / re-dispatches.
+        $existing = $this->getRepository(GaaSolicitacao::class)->createQueryBuilder('s')
+            ->leftJoin('s.employee', 'e')
+            ->where('e.empNumber = :emp')
+            ->andWhere('s.tipo = :tipo')
+            ->andWhere('s.status IN (:open)')
+            ->setParameter('emp', $empNumber)
+            ->setParameter('tipo', $tipo)
+            ->setParameter('open', [
+                GaaSolicitacao::STATUS_PENDENTE_LIDER,
+                GaaSolicitacao::STATUS_PENDENTE_TI,
+            ])
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+        if ($existing instanceof GaaSolicitacao) {
+            return $existing;
+        }
+
         $solicitacao = new GaaSolicitacao();
         $employee = $this->getRepository(Employee::class)->find($empNumber);
         if ($employee === null) {
@@ -185,6 +205,8 @@ class GaaDao extends BaseDao
         if ($params->getNome() !== null) {
             $qb->andWhere('c.nome LIKE :nome')->setParameter('nome', '%' . $params->getNome() . '%');
         }
+        // Sem default em ativo — Catalogo.vue (admin) precisa enxergar inativos para reativar.
+        // Consumidores não-admin (PreencherSolicitacao.vue) já passam ativo=1 explícito.
         if ($params->getAtivo() !== null) {
             $qb->andWhere('c.ativo = :ativo')->setParameter('ativo', $params->getAtivo());
         }

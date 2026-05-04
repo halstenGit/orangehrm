@@ -231,6 +231,25 @@ class SurveyDao extends BaseDao
     }
 
     /**
+     * @param int $surveyId
+     * @param int[] $ids
+     * @return int
+     */
+    public function deleteTargetsByIds(int $surveyId, array $ids): int
+    {
+        if (empty($ids)) {
+            return 0;
+        }
+        $q = $this->createQueryBuilder(SurveyTarget::class, 'target');
+        $q->delete()
+            ->andWhere('target.survey = :surveyId')
+            ->andWhere($q->expr()->in('target.id', ':ids'))
+            ->setParameter('surveyId', $surveyId)
+            ->setParameter('ids', $ids);
+        return $q->getQuery()->execute();
+    }
+
+    /**
      * @param SurveyResponse $response
      * @return SurveyResponse
      */
@@ -296,10 +315,11 @@ class SurveyDao extends BaseDao
             $questionId = $question->getId();
             $questionType = $question->getQuestionType();
 
+            // Saída em camelCase para casar com a UI Vue.
             $entry = [
-                'question_id' => $questionId,
-                'question_text' => $question->getQuestionText(),
-                'question_type' => $questionType,
+                'questionId' => $questionId,
+                'questionText' => $question->getQuestionText(),
+                'questionType' => $questionType,
             ];
 
             $qb = $this->createQueryBuilder(SurveyAnswer::class, 'answer');
@@ -316,27 +336,40 @@ class SurveyDao extends BaseDao
                 }
                 $entry['answers'] = $texts;
             } elseif ($questionType === SurveyQuestion::TYPE_MULTIPLE_CHOICE) {
-                $optionCounts = [];
+                // Conta por optionId E inclui optionText — Vue precisa do label p/ renderizar.
+                $allOptions = $this->getOptionsByQuestionId($questionId);
+                $optionMeta = [];
+                foreach ($allOptions as $opt) {
+                    $optionMeta[$opt->getId()] = [
+                        'optionId' => $opt->getId(),
+                        'optionText' => $opt->getOptionText(),
+                        'count' => 0,
+                    ];
+                }
                 foreach ($answers as $answer) {
                     $option = $answer->getAnswerOption();
-                    if ($option !== null) {
-                        $optionId = $option->getId();
-                        $optionCounts[$optionId] = ($optionCounts[$optionId] ?? 0) + 1;
+                    if ($option !== null && isset($optionMeta[$option->getId()])) {
+                        $optionMeta[$option->getId()]['count']++;
                     }
                 }
-                $entry['option_counts'] = $optionCounts;
+                $entry['options'] = array_values($optionMeta);
             } elseif (
                 $questionType === SurveyQuestion::TYPE_SCALE_5
                 || $questionType === SurveyQuestion::TYPE_SCALE_10
             ) {
                 $scaleValues = [];
-                $distribution = [];
+                $distMap = [];
                 foreach ($answers as $answer) {
                     $scale = $answer->getAnswerScale();
                     if ($scale !== null) {
                         $scaleValues[] = $scale;
-                        $distribution[$scale] = ($distribution[$scale] ?? 0) + 1;
+                        $distMap[$scale] = ($distMap[$scale] ?? 0) + 1;
                     }
+                }
+                ksort($distMap);
+                $distribution = [];
+                foreach ($distMap as $value => $count) {
+                    $distribution[] = ['value' => $value, 'count' => $count];
                 }
                 $entry['average'] = count($scaleValues) > 0
                     ? array_sum($scaleValues) / count($scaleValues)
@@ -353,8 +386,8 @@ class SurveyDao extends BaseDao
                         $noCount++;
                     }
                 }
-                $entry['yes_count'] = $yesCount;
-                $entry['no_count'] = $noCount;
+                $entry['yesCount'] = $yesCount;
+                $entry['noCount'] = $noCount;
             }
 
             $results[] = $entry;

@@ -32,7 +32,9 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Entity\GaaSolicitacao;
+use OrangeHRM\Entity\User;
 use OrangeHRM\Gaa\Api\Model\GaaSolicitacaoModel;
 use OrangeHRM\Gaa\Dto\GaaSolicitacaoSearchFilterParams;
 use OrangeHRM\Gaa\Traits\Service\GaaServiceTrait;
@@ -40,6 +42,7 @@ use OrangeHRM\Gaa\Traits\Service\GaaServiceTrait;
 class GaaSolicitacaoAPI extends Endpoint implements CrudEndpoint
 {
     use GaaServiceTrait;
+    use AuthUserTrait;
 
     public const PARAMETER_TIPO = 'tipo';
     public const PARAMETER_STATUS = 'status';
@@ -76,7 +79,12 @@ class GaaSolicitacaoAPI extends Endpoint implements CrudEndpoint
             $this->getValidationDecorator()->notRequiredParamRule(new ParamRule(self::PARAMETER_EMP_NUMBER, new Rule(Rules::POSITIVE))),
             $this->getValidationDecorator()->notRequiredParamRule(new ParamRule(self::PARAMETER_LIDER_EMP_NUMBER, new Rule(Rules::POSITIVE))),
             $this->getValidationDecorator()->notRequiredParamRule(new ParamRule(self::PARAMETER_TIPO, new Rule(Rules::IN, [[GaaSolicitacao::TIPO_ADMISSAO, GaaSolicitacao::TIPO_DESLIGAMENTO]]))),
-            $this->getValidationDecorator()->notRequiredParamRule(new ParamRule(self::PARAMETER_STATUS, new Rule(Rules::STRING_TYPE))),
+            $this->getValidationDecorator()->notRequiredParamRule(new ParamRule(self::PARAMETER_STATUS, new Rule(Rules::IN, [[
+                GaaSolicitacao::STATUS_PENDENTE_LIDER,
+                GaaSolicitacao::STATUS_PENDENTE_TI,
+                GaaSolicitacao::STATUS_CONCLUIDA,
+                GaaSolicitacao::STATUS_CANCELADA,
+            ]]))),
             ...$this->getSortingAndPaginationParamsRules(GaaSolicitacaoSearchFilterParams::ALLOWED_SORT_FIELDS)
         );
     }
@@ -115,7 +123,7 @@ class GaaSolicitacaoAPI extends Endpoint implements CrudEndpoint
             if ($solicitacao->getStatus() !== GaaSolicitacao::STATUS_PENDENTE_TI) {
                 throw new BadRequestException('Solicitação não está pendente do TI.');
             }
-            $solicitacao = $this->getGaaService()->concluirSolicitacao($solicitacao);
+            $solicitacao = $this->getGaaService()->concluirSolicitacao($solicitacao, $this->getCurrentUser());
         } else {
             $solicitacao = $this->getGaaService()->getGaaDao()->saveSolicitacao($solicitacao);
         }
@@ -150,5 +158,14 @@ class GaaSolicitacaoAPI extends Endpoint implements CrudEndpoint
     public function getValidationRuleForDelete(): ParamRuleCollection
     {
         return new ParamRuleCollection();
+    }
+
+    private function getCurrentUser(): ?User
+    {
+        $userId = $this->getAuthUser()->getUserId();
+        if ($userId === null) {
+            return null;
+        }
+        return $this->getGaaService()->getGaaDao()->getRepository(User::class)->find($userId);
     }
 }
