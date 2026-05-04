@@ -78,8 +78,7 @@ class GaaRevisaoTiAPI extends Endpoint implements CrudEndpoint
                 $item = $this->getGaaService()->aprovarItemAdhoc($item, $user);
                 break;
             case self::ACAO_PROMOVER:
-                $this->getGaaService()->promoverItemAoCatalogo($item, $user);
-                $item = $this->getGaaService()->getGaaDao()->getItemById($id);
+                $item = $this->getGaaService()->promoverItemAoCatalogo($item, $user);
                 break;
             case self::ACAO_REJEITAR:
                 $motivo = $this->getRequestParams()->getString(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_MOTIVO);

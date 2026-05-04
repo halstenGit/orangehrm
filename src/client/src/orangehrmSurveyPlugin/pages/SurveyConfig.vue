@@ -33,7 +33,7 @@
               <oxd-text tag="p" class="orangehrm-sm-field-label">
                 {{ $t('survey.allow_supervisors_create') }}
               </oxd-text>
-              <oxd-switch-input v-model="config.allowSupervisorsToCreate" />
+              <oxd-switch-input v-model="config.allowSupervisorCreate" />
             </div>
           </oxd-grid-item>
         </oxd-grid>
@@ -53,7 +53,7 @@ import {OxdSwitchInput} from '@ohrm/oxd';
 import {APIService} from '@/core/util/services/api.service';
 
 const initialConfig = {
-  allowSupervisorsToCreate: false,
+  allowSupervisorCreate: false,
 };
 
 export default {
@@ -84,7 +84,7 @@ export default {
         const data = response.data?.data;
         if (data) {
           this.config = {
-            allowSupervisorsToCreate: data.allowSupervisorsToCreate ?? false,
+            allowSupervisorCreate: data.allowSupervisorCreate ?? false,
           };
         }
       })
@@ -101,7 +101,7 @@ export default {
           method: 'PUT',
           url: `${window.appGlobal.baseUrl}/api/v2/survey/config`,
           data: {
-            allowSupervisorsToCreate: this.config.allowSupervisorsToCreate,
+            allowSupervisorCreate: this.config.allowSupervisorCreate,
           },
         })
         .then(() => {

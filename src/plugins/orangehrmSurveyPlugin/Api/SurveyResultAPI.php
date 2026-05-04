@@ -79,6 +79,7 @@ class SurveyResultAPI extends Endpoint implements ResourceEndpoint
             ArrayModel::class,
             [
                 'surveyId' => $surveyId,
+                'title' => $survey->getTitle(),
                 'responseCount' => $responseCount,
                 'questions' => $questionResults,
             ]

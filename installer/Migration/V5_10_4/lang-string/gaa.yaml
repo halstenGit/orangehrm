@@ -1,0 +1,31 @@
+langStrings:
+  -
+    value: "Created"
+    unitId: acao_criado
+  -
+    value: "Updated"
+    unitId: acao_atualizado
+  -
+    value: "Comment"
+    unitId: acao_comentario
+  -
+    value: "Approved Ad-hoc"
+    unitId: acao_aprovado_adhoc
+  -
+    value: "Promoted to Catalog"
+    unitId: acao_promovido_catalogo
+  -
+    value: "Rejected"
+    unitId: acao_rejeitado
+  -
+    value: "Completed"
+    unitId: acao_concluido
+  -
+    value: "Confirm conclusion of this request?"
+    unitId: confirmar_conclusao
+  -
+    value: "Confirm deletion?"
+    unitId: confirmar_exclusao
+  -
+    value: "Provide a catalog item or describe a custom one."
+    unitId: informe_catalogo_ou_custom

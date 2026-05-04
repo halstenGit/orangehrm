@@ -200,7 +200,7 @@ export default {
     this.fetchAll();
   },
   methods: {
-    async fetchAll() {
+    async fetchAll(reloadObservacoes = true) {
       const httpSol = new APIService(window.appGlobal.baseUrl, '/api/v2/gaa/solicitacoes');
       const httpCat = new APIService(window.appGlobal.baseUrl, '/api/v2/gaa/catalogo');
       const httpItens = new APIService(
@@ -215,7 +215,11 @@ export default {
       ]);
 
       this.solicitacao = sRes.data?.data;
-      this.solicitacaoObservacoes = this.solicitacao?.observacoes || '';
+      // Preserva edição local de observacoes em refetches disparados por
+      // add/delete de item — só recarrega na montagem inicial ou após salvar.
+      if (reloadObservacoes) {
+        this.solicitacaoObservacoes = this.solicitacao?.observacoes || '';
+      }
       this.catalogoOptions = (cRes.data?.data || []).map((c) => ({
         id: c.id,
         label: `${c.nome} (${c.tipoItem})`,
@@ -223,18 +227,27 @@ export default {
       this.itens = iRes.data?.data || [];
     },
     async addItem() {
+      const tipoRaw = this.novoItem.tipoItem;
+      const catRaw = this.novoItem.catalogoId;
+      const catalogoId =
+        (catRaw && typeof catRaw === 'object' ? catRaw.id : catRaw) || null;
+      const labelCustom = (this.novoItem.labelCustom || '').trim();
+      if (catalogoId === null && labelCustom === '') {
+        this.$toast?.warning?.({
+          title: this.$t('general.warning'),
+          message: this.$t('gaa.informe_catalogo_ou_custom'),
+        });
+        return;
+      }
       const http = new APIService(
         window.appGlobal.baseUrl,
         `/api/v2/gaa/solicitacoes/${this.id}/itens`,
       );
-      const tipoRaw = this.novoItem.tipoItem;
-      const catRaw = this.novoItem.catalogoId;
       await http.create({
         tipoItem:
           (tipoRaw && typeof tipoRaw === 'object' ? tipoRaw.id : tipoRaw) || null,
-        catalogoId:
-          (catRaw && typeof catRaw === 'object' ? catRaw.id : catRaw) || null,
-        labelCustom: this.novoItem.labelCustom || null,
+        catalogoId,
+        labelCustom: labelCustom === '' ? null : labelCustom,
         quantidade: parseInt(this.novoItem.quantidade, 10) || 1,
         observacoes: this.novoItem.observacoes || null,
       });
@@ -245,7 +258,7 @@ export default {
         quantidade: 1,
         observacoes: '',
       };
-      this.fetchAll();
+      this.fetchAll(false);
     },
     async deleteItem(itemId) {
       const http = new APIService(
@@ -253,12 +266,12 @@ export default {
         `/api/v2/gaa/solicitacoes/${this.id}/itens`,
       );
       await http.deleteAll({ids: [itemId]});
-      this.fetchAll();
+      this.fetchAll(false);
     },
     async salvarObservacoes() {
       const http = new APIService(window.appGlobal.baseUrl, '/api/v2/gaa/solicitacoes');
       await http.update(this.id, {observacoes: this.solicitacaoObservacoes});
-      this.fetchAll();
+      this.fetchAll(true);
     },
     async avancarParaTi() {
       const http = new APIService(window.appGlobal.baseUrl, '/api/v2/gaa/solicitacoes');
@@ -266,6 +279,8 @@ export default {
       navigate('/gaa/gaaMinhasPendencias');
     },
     async concluirSolicitacao() {
+      // eslint-disable-next-line no-alert
+      if (!window.confirm(this.$t('gaa.confirmar_conclusao'))) return;
       const http = new APIService(window.appGlobal.baseUrl, '/api/v2/gaa/solicitacoes');
       await http.update(this.id, {acao: 'CONCLUIR'});
       navigate('/gaa/gaaMinhasPendencias');

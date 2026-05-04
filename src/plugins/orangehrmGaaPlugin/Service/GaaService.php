@@ -31,8 +31,19 @@ use OrangeHRM\Pim\Dto\EmployeeSupervisorSearchFilterParams;
 
 class GaaService
 {
+    /**
+     * Roles tratadas como TI (acesso à revisão de itens, dashboards de TI, etc.).
+     * Centralizado aqui para que evoluções da taxonomia de papéis fiquem em um só lugar.
+     */
+    public const TI_ROLES = ['Admin'];
+
     private ?GaaDao $gaaDao = null;
     private ?EmployeeReportingMethodService $reportingService = null;
+
+    public function isUserTi(?string $userRole): bool
+    {
+        return $userRole !== null && in_array($userRole, self::TI_ROLES, true);
+    }
 
     public function getGaaDao(): GaaDao
     {
@@ -74,8 +85,20 @@ class GaaService
         return $this->getGaaDao()->saveSolicitacao($solicitacao);
     }
 
-    public function concluirSolicitacao(GaaSolicitacao $solicitacao): GaaSolicitacao
+    public function concluirSolicitacao(GaaSolicitacao $solicitacao, ?User $user = null): GaaSolicitacao
     {
+        // Marca todos os itens não-rejeitados como CONCLUIDO antes de fechar a solicitação,
+        // para que o histórico reflita a conclusão por item.
+        $itens = $this->getGaaDao()->getItensBySolicitacao($solicitacao->getId());
+        foreach ($itens as $item) {
+            if ($item->getStatus() === GaaSolicitacaoItem::STATUS_REJEITADO
+                || $item->getStatus() === GaaSolicitacaoItem::STATUS_CONCLUIDO
+            ) {
+                continue;
+            }
+            $this->concluirItem($item, $user);
+        }
+
         $solicitacao->setStatus(GaaSolicitacao::STATUS_CONCLUIDA);
         $solicitacao->setConcluidoEm(new DateTime());
         return $this->getGaaDao()->saveSolicitacao($solicitacao);
@@ -89,7 +112,7 @@ class GaaService
         return $item;
     }
 
-    public function promoverItemAoCatalogo(GaaSolicitacaoItem $item, ?User $user): GaaCatalogo
+    public function promoverItemAoCatalogo(GaaSolicitacaoItem $item, ?User $user): GaaSolicitacaoItem
     {
         $catalogo = new GaaCatalogo();
         $catalogo->setNome($item->getLabelCustom() ?? 'Item sem nome');
@@ -111,7 +134,7 @@ class GaaService
             null,
             ['catalogo_id' => $catalogo->getId()]
         );
-        return $catalogo;
+        return $item;
     }
 
     public function rejeitarItem(GaaSolicitacaoItem $item, ?User $user, string $motivo): GaaSolicitacaoItem

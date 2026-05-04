@@ -88,6 +88,15 @@ class GaaSolicitacaoItemAPI extends Endpoint implements CrudEndpoint
         $solicitacao = $this->getGaaService()->getGaaDao()->getSolicitacaoById($solicitacaoId);
         $this->throwRecordNotFoundExceptionIfNotExist($solicitacao, GaaSolicitacao::class);
 
+        $catalogoId = $this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_CATALOGO_ID);
+        $labelCustom = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_LABEL_CUSTOM);
+        if ($catalogoId === null && ($labelCustom === null || trim($labelCustom) === '')) {
+            throw new BadRequestException('Informe um item do catálogo ou descreva um item customizado.');
+        }
+        if ($catalogoId !== null && $labelCustom !== null && trim($labelCustom) !== '') {
+            throw new BadRequestException('Informe item do catálogo OU customizado, não ambos.');
+        }
+
         $item = new GaaSolicitacaoItem();
         $item->setSolicitacao($solicitacao);
         $this->setItemFields($item);
@@ -116,9 +125,14 @@ class GaaSolicitacaoItemAPI extends Endpoint implements CrudEndpoint
 
     public function update(): EndpointResult
     {
+        $solicitacaoId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_SOLICITACAO_ID);
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $item = $this->getGaaService()->getGaaDao()->getItemById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($item, GaaSolicitacaoItem::class);
+
+        if ($item->getSolicitacao()->getId() !== $solicitacaoId) {
+            throw new BadRequestException('Item não pertence à solicitação informada.');
+        }
 
         $payloadAntes = [
             'catalogo_id' => $item->getCatalogo()?->getId(),
@@ -158,11 +172,20 @@ class GaaSolicitacaoItemAPI extends Endpoint implements CrudEndpoint
 
     public function delete(): EndpointResult
     {
+        $solicitacaoId = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_SOLICITACAO_ID);
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_IDS);
+        $deleted = [];
         foreach ($ids as $id) {
-            $this->getGaaService()->getGaaDao()->deleteItem((int)$id);
+            $intId = (int)$id;
+            $item = $this->getGaaService()->getGaaDao()->getItemById($intId);
+            if ($item === null || $item->getSolicitacao()->getId() !== $solicitacaoId) {
+                continue;
+            }
+            if ($this->getGaaService()->getGaaDao()->deleteItem($intId)) {
+                $deleted[] = $intId;
+            }
         }
-        return new EndpointResourceResult(ArrayModel::class, $ids);
+        return new EndpointResourceResult(ArrayModel::class, $deleted);
     }
 
     public function getValidationRuleForDelete(): ParamRuleCollection
@@ -178,6 +201,15 @@ class GaaSolicitacaoItemAPI extends Endpoint implements CrudEndpoint
         $catalogoId = $this->getRequestParams()->getIntOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_CATALOGO_ID);
         $labelCustom = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_LABEL_CUSTOM);
 
+        // Status só é (re)definido enquanto o item ainda está em fluxo de líder.
+        // Itens já promovidos/aprovados/rejeitados/concluídos NÃO devem retroceder de status
+        // mesmo se o líder editar a referência catálogo/custom.
+        $isInLiderFlow = in_array(
+            $item->getStatus() ?? GaaSolicitacaoItem::STATUS_PENDENTE_LIDER,
+            [GaaSolicitacaoItem::STATUS_PENDENTE_LIDER, GaaSolicitacaoItem::STATUS_PENDENTE_TI_REVISAO],
+            true
+        );
+
         if ($catalogoId !== null) {
             $catalogo = $this->getGaaService()->getGaaDao()->getCatalogoById($catalogoId);
             if ($catalogo === null) {
@@ -185,11 +217,15 @@ class GaaSolicitacaoItemAPI extends Endpoint implements CrudEndpoint
             }
             $item->setCatalogo($catalogo);
             $item->setLabelCustom(null);
-            $item->setStatus(GaaSolicitacaoItem::STATUS_PENDENTE_LIDER);
+            if ($isInLiderFlow) {
+                $item->setStatus(GaaSolicitacaoItem::STATUS_PENDENTE_LIDER);
+            }
         } elseif ($labelCustom !== null) {
             $item->setCatalogo(null);
             $item->setLabelCustom($labelCustom);
-            $item->setStatus(GaaSolicitacaoItem::STATUS_PENDENTE_TI_REVISAO);
+            if ($isInLiderFlow) {
+                $item->setStatus(GaaSolicitacaoItem::STATUS_PENDENTE_TI_REVISAO);
+            }
         }
 
         $tipoItem = $this->getRequestParams()->getStringOrNull(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_TIPO_ITEM);

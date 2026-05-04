@@ -44,7 +44,7 @@
         <tbody>
           <tr v-for="c in catalogo" :key="c.id">
             <td>{{ c.nome }}</td>
-            <td>{{ c.tipoItem }}</td>
+            <td>{{ tipoItemLabel(c.tipoItem) }}</td>
             <td>{{ c.quantidadePadrao }}</td>
             <td>{{ c.descricao }}</td>
             <td>
@@ -56,7 +56,7 @@
       </table>
     </div>
 
-    <oxd-dialog v-if="editing" @update:show="editing = false">
+    <oxd-dialog v-if="editing" :show="editing" @update:show="editing = false">
       <template #header>
         <oxd-text type="card-title">
           {{ form.id ? $t('gaa.editar_item_catalogo') : $t('gaa.adicionar_catalogo') }}
@@ -81,8 +81,19 @@
           type="textarea"
           :label="$t('gaa.descricao')"
         />
+        <oxd-input-field
+          v-model="form.ativo"
+          type="select"
+          :label="$t('gaa.ativo')"
+          :options="ativoOptions"
+        />
         <oxd-form-actions>
-          <oxd-button :label="$t('general.cancel')" @click="editing = false" />
+          <oxd-button
+            type="button"
+            :label="$t('general.cancel')"
+            display-type="ghost"
+            @click="editing = false"
+          />
           <oxd-button
             :label="$t('general.save')"
             display-type="secondary"
@@ -107,10 +118,21 @@ export default {
     return {
       catalogo: [],
       editing: false,
-      form: {id: null, nome: '', tipoItem: null, quantidadePadrao: 1, descricao: ''},
+      form: {
+        id: null,
+        nome: '',
+        tipoItem: null,
+        quantidadePadrao: 1,
+        descricao: '',
+        ativo: null,
+      },
       tipoItemOptions: [
         {id: 'ACESSO', label: this.$t('gaa.acesso')},
         {id: 'EQUIPAMENTO', label: this.$t('gaa.equipamento')},
+      ],
+      ativoOptions: [
+        {id: 1, label: this.$t('general.yes')},
+        {id: 0, label: this.$t('general.no')},
       ],
       rules: {nome: [required], tipoItem: [required]},
     };
@@ -125,7 +147,14 @@ export default {
       this.catalogo = res.data?.data || [];
     },
     abrirNovo() {
-      this.form = {id: null, nome: '', tipoItem: null, quantidadePadrao: 1, descricao: ''};
+      this.form = {
+        id: null,
+        nome: '',
+        tipoItem: null,
+        quantidadePadrao: 1,
+        descricao: '',
+        ativo: this.ativoOptions[0],
+      };
       this.editing = true;
     },
     editar(c) {
@@ -135,18 +164,22 @@ export default {
         tipoItem: this.tipoItemOptions.find((o) => o.id === c.tipoItem),
         quantidadePadrao: c.quantidadePadrao,
         descricao: c.descricao || '',
+        ativo: this.ativoOptions.find((o) => o.id === (c.ativo ? 1 : 0)),
       };
       this.editing = true;
     },
     async salvar() {
       const http = new APIService(window.appGlobal.baseUrl, '/api/v2/gaa/catalogo');
       const tipoRaw = this.form.tipoItem;
+      const ativoRaw = this.form.ativo;
       const payload = {
         nome: this.form.nome,
         tipoItem:
           (tipoRaw && typeof tipoRaw === 'object' ? tipoRaw.id : tipoRaw) || null,
         quantidadePadrao: parseInt(this.form.quantidadePadrao, 10) || 1,
         descricao: this.form.descricao,
+        ativo:
+          ativoRaw && typeof ativoRaw === 'object' ? ativoRaw.id : ativoRaw,
       };
       if (this.form.id) {
         await http.update(this.form.id, payload);
@@ -157,10 +190,15 @@ export default {
       this.fetch();
     },
     async excluir(id) {
-      if (!window.confirm(this.$t('general.confirm_delete'))) return;
+      // eslint-disable-next-line no-alert
+      if (!window.confirm(this.$t('gaa.confirmar_exclusao'))) return;
       const http = new APIService(window.appGlobal.baseUrl, '/api/v2/gaa/catalogo');
       await http.deleteAll({ids: [id]});
       this.fetch();
+    },
+    tipoItemLabel(tipo) {
+      const opt = this.tipoItemOptions.find((o) => o.id === tipo);
+      return opt ? opt.label : tipo;
     },
   },
 };

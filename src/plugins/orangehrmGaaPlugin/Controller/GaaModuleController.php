@@ -20,13 +20,23 @@
 namespace OrangeHRM\Gaa\Controller;
 
 use OrangeHRM\Core\Controller\AbstractController;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Framework\Http\RedirectResponse;
 use OrangeHRM\Framework\Http\Request;
+use OrangeHRM\Gaa\Traits\Service\GaaServiceTrait;
 
 class GaaModuleController extends AbstractController
 {
+    use AuthUserTrait;
+    use GaaServiceTrait;
+
     public function handle(Request $request): RedirectResponse
     {
-        return new RedirectResponse($request->getBasePath() . '/gaa/gaaMinhasPendencias');
+        // Admin/TI cai direto na fila de revisão; demais usuários veem suas pendências como líder.
+        $userRole = (string)$this->getAuthUser()->getUserRoleName();
+        $target = $this->getGaaService()->isUserTi($userRole)
+            ? '/gaa/gaaRevisaoTi'
+            : '/gaa/gaaMinhasPendencias';
+        return new RedirectResponse($request->getBasePath() . $target);
     }
 }

@@ -27,6 +27,7 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
@@ -280,6 +281,11 @@ class SurveyAPI extends Endpoint implements CrudEndpoint
      */
     public function update(): EndpointResult
     {
+        $userRole = $this->getAuthUser()->getUserRoleName();
+        if (!$this->getSurveyService()->canUserCreateSurvey((string)$userRole)) {
+            throw $this->getForbiddenException();
+        }
+
         $id = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, CommonParams::PARAMETER_ID);
         $survey = $this->getSurveyService()->getSurveyById($id);
         $this->throwRecordNotFoundExceptionIfNotExist($survey, Survey::class);
@@ -350,7 +356,12 @@ class SurveyAPI extends Endpoint implements CrudEndpoint
     {
         $ids = $this->getRequestParams()->getArray(RequestParams::PARAM_TYPE_BODY, self::PARAMETER_IDS);
         $this->throwRecordNotFoundExceptionIfEmptyIds($ids);
-        $this->getSurveyService()->deleteSurveys($ids);
+        $affected = $this->getSurveyService()->deleteSurveys($ids);
+        // Apenas surveys em DRAFT são deletáveis. Se nada foi afetado, sinaliza ao caller
+        // (UI pensava ter excluído um survey publicado/fechado).
+        if ($affected === 0) {
+            throw new BadRequestException('Apenas pesquisas em rascunho podem ser excluídas.');
+        }
 
         return new EndpointResourceResult(ArrayModel::class, $ids);
     }

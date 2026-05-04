@@ -38,7 +38,7 @@ class GaaMinhasPendenciasAPI extends Endpoint implements CollectionEndpoint
         $userRole = (string)$this->getAuthUser()->getUserRoleName();
         $empNumber = $this->getAuthUser()->getEmpNumber();
 
-        if ($userRole === 'Admin') {
+        if ($this->getGaaService()->isUserTi($userRole)) {
             $solicitacoes = $this->getGaaService()->getGaaDao()->getMinhasPendenciasComoTi();
         } else {
             $solicitacoes = $empNumber !== null

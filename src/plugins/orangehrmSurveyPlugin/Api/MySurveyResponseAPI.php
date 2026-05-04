@@ -26,6 +26,7 @@ use OrangeHRM\Core\Api\V2\CrudEndpoint;
 use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Exception\ForbiddenException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\RequestParams;
 use OrangeHRM\Core\Api\V2\Validator\ParamRule;
@@ -94,7 +95,24 @@ class MySurveyResponseAPI extends Endpoint implements CrudEndpoint
         $survey = $this->getSurveyService()->getSurveyById($surveyId);
         $this->throwRecordNotFoundExceptionIfNotExist($survey, Survey::class);
 
+        // Apenas surveys PUBLISHED aceitam respostas — DRAFT/CLOSED são rejeitados.
+        if ($survey->getStatus() !== Survey::STATUS_PUBLISHED) {
+            throw $this->getForbiddenException();
+        }
+
         $empNumber = $this->getAuthUser()->getEmpNumber();
+
+        // Surveys não-anônimos exigem usuário com Employee vinculado.
+        if (!$survey->isAnonymous() && $empNumber === null) {
+            throw $this->getForbiddenException();
+        }
+
+        // Bloqueia duplo-submit: se não-anônimo e já respondeu, recusa.
+        if (!$survey->isAnonymous() && $empNumber !== null
+            && $this->getSurveyService()->hasEmployeeResponded($surveyId, $empNumber)
+        ) {
+            throw new ForbiddenException('Esta pesquisa já foi respondida.');
+        }
 
         $response = new SurveyResponse();
         $response->setSurvey($survey);
@@ -198,7 +216,8 @@ class MySurveyResponseAPI extends Endpoint implements CrudEndpoint
         $this->throwRecordNotFoundExceptionIfNotExist($survey, Survey::class);
 
         $empNumber = $this->getAuthUser()->getEmpNumber();
-        $hasResponded = $this->getSurveyService()->hasEmployeeResponded($surveyId, $empNumber);
+        $hasResponded = $empNumber !== null
+            && $this->getSurveyService()->hasEmployeeResponded($surveyId, $empNumber);
 
         return new EndpointResourceResult(
             ArrayModel::class,

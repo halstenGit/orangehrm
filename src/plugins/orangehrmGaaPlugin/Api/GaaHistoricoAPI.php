@@ -28,18 +28,28 @@ use OrangeHRM\Core\Api\V2\Validator\ParamRule;
 use OrangeHRM\Core\Api\V2\Validator\ParamRuleCollection;
 use OrangeHRM\Core\Api\V2\Validator\Rule;
 use OrangeHRM\Core\Api\V2\Validator\Rules;
+use OrangeHRM\Core\Traits\Auth\AuthUserTrait;
 use OrangeHRM\Gaa\Api\Model\GaaHistoricoModel;
 use OrangeHRM\Gaa\Traits\Service\GaaServiceTrait;
 
 class GaaHistoricoAPI extends Endpoint implements CollectionEndpoint
 {
     use GaaServiceTrait;
+    use AuthUserTrait;
 
     public const PARAMETER_EMP_NUMBER = 'empNumber';
 
     public function getAll(): EndpointResult
     {
         $empNumber = $this->getRequestParams()->getInt(RequestParams::PARAM_TYPE_ATTRIBUTE, self::PARAMETER_EMP_NUMBER);
+
+        // Acesso ao histórico: TI vê todos; demais só veem o próprio.
+        $userRole = (string)$this->getAuthUser()->getUserRoleName();
+        $authEmpNumber = $this->getAuthUser()->getEmpNumber();
+        if (!$this->getGaaService()->isUserTi($userRole) && $authEmpNumber !== $empNumber) {
+            throw $this->getForbiddenException();
+        }
+
         $historico = $this->getGaaService()->getGaaDao()->getHistoricoByEmpNumber($empNumber);
         return new EndpointCollectionResult(GaaHistoricoModel::class, $historico);
     }

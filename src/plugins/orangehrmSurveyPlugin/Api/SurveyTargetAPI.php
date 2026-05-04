@@ -26,6 +26,7 @@ use OrangeHRM\Core\Api\V2\Endpoint;
 use OrangeHRM\Core\Api\V2\EndpointCollectionResult;
 use OrangeHRM\Core\Api\V2\EndpointResourceResult;
 use OrangeHRM\Core\Api\V2\EndpointResult;
+use OrangeHRM\Core\Api\V2\Exception\BadRequestException;
 use OrangeHRM\Core\Api\V2\Model\ArrayModel;
 use OrangeHRM\Core\Api\V2\ParameterBag;
 use OrangeHRM\Core\Api\V2\RequestParams;
@@ -86,35 +87,43 @@ class SurveyTargetAPI extends Endpoint implements CrudEndpoint
         $survey = $this->getSurveyService()->getSurveyById($surveyId);
         $this->throwRecordNotFoundExceptionIfNotExist($survey, Survey::class);
 
+        $targetType = $survey->getTargetType();
+
+        // TARGET_ALL não tem entradas individuais — rejeita p/ não poluir a tabela com rows vazias.
+        if ($targetType === Survey::TARGET_ALL) {
+            throw new BadRequestException('Pesquisas com público "TODOS" não aceitam alvos específicos.');
+        }
+
         $target = new SurveyTarget();
         $target->setSurvey($survey);
-
-        $targetType = $survey->getTargetType();
 
         if ($targetType === Survey::TARGET_SUBUNIT) {
             $subunitId = $this->getRequestParams()->getIntOrNull(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_SUBUNIT_ID
             );
-            if ($subunitId !== null) {
-                $target->setSubunit($this->getReference(Subunit::class, $subunitId));
+            if ($subunitId === null) {
+                throw new BadRequestException('subunitId é obrigatório para pesquisas por unidade.');
             }
+            $target->setSubunit($this->getReference(Subunit::class, $subunitId));
         } elseif ($targetType === Survey::TARGET_JOB_TITLE) {
             $jobTitleId = $this->getRequestParams()->getIntOrNull(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_JOB_TITLE_ID
             );
-            if ($jobTitleId !== null) {
-                $target->setJobTitle($this->getReference(JobTitle::class, $jobTitleId));
+            if ($jobTitleId === null) {
+                throw new BadRequestException('jobTitleId é obrigatório para pesquisas por cargo.');
             }
+            $target->setJobTitle($this->getReference(JobTitle::class, $jobTitleId));
         } elseif ($targetType === Survey::TARGET_SPECIFIC) {
             $empNumber = $this->getRequestParams()->getIntOrNull(
                 RequestParams::PARAM_TYPE_BODY,
                 self::PARAMETER_EMP_NUMBER
             );
-            if ($empNumber !== null) {
-                $target->setEmployee($this->getReference(Employee::class, $empNumber));
+            if ($empNumber === null) {
+                throw new BadRequestException('empNumber é obrigatório para pesquisas a colaboradores específicos.');
             }
+            $target->setEmployee($this->getReference(Employee::class, $empNumber));
         }
 
         $this->getSurveyService()->saveSurveyTarget($target);
@@ -240,7 +249,18 @@ class SurveyTargetAPI extends Endpoint implements CrudEndpoint
             RequestParams::PARAM_TYPE_ATTRIBUTE,
             self::PARAMETER_SURVEY_ID
         );
-        $this->getSurveyService()->deleteTargetsBySurveyId($surveyId);
+        $ids = $this->getRequestParams()->getArrayOrNull(
+            RequestParams::PARAM_TYPE_BODY,
+            self::PARAMETER_IDS
+        );
+
+        // Se ids vier presente, escopa o delete a esses targets daquele survey.
+        // Caso contrário, mantém comportamento antigo: limpa todos os targets do survey.
+        if (is_array($ids) && count($ids) > 0) {
+            $this->getSurveyService()->deleteTargetsByIds($surveyId, array_map('intval', $ids));
+        } else {
+            $this->getSurveyService()->deleteTargetsBySurveyId($surveyId);
+        }
 
         return new EndpointResourceResult(ArrayModel::class, ['surveyId' => $surveyId]);
     }
