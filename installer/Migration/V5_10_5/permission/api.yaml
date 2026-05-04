@@ -1,0 +1,13 @@
+apiv2_admin_menu_items:
+  description: 'Admin - Menu Configuration (reorder/icon/visibility)'
+  api: OrangeHRM\Admin\Api\MenuConfigAPI
+  module: admin
+  allowed:
+    read: true
+    create: false
+    update: true
+    delete: false
+  permissions:
+    - { role: Admin, permission: { read: true, create: false, update: true, delete: false } }
+    - { role: Supervisor, permission: { read: false, create: false, update: false, delete: false } }
+    - { role: ESS, permission: { read: false, create: false, update: false, delete: false } }
