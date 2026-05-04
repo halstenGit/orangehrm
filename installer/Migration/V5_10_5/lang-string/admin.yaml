@@ -1,0 +1,22 @@
+langStrings:
+  -
+    value: "Menu Configuration"
+    unitId: menu_configuration
+  -
+    value: "Adjust the order, icon and visibility of side-menu entries. Changes apply on next page load."
+    unitId: menu_configuration_help
+  -
+    value: "Top-level menus"
+    unitId: top_level_menus
+  -
+    value: "Order"
+    unitId: order
+  -
+    value: "Icon"
+    unitId: icon_name
+  -
+    value: "Visible"
+    unitId: visible
+  -
+    value: "Icon name (e.g. laptop, pim, claim)"
+    unitId: icon_placeholder
