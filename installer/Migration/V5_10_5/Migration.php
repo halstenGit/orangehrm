@@ -40,6 +40,7 @@ class Migration extends AbstractMigration
     public function up(): void
     {
         $this->getDataGroupHelper()->insertScreenPermissions(__DIR__ . '/permission/screens.yaml');
+        $this->getDataGroupHelper()->insertApiPermissions(__DIR__ . '/permission/api.yaml');
         $this->getLangStringHelper()->insertOrUpdateLangStrings(__DIR__, 'admin');
         $this->insertMenuItem();
     }

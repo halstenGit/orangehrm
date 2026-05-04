@@ -81,6 +81,7 @@ class AppSetupUtility
         '5.10.3' => \OrangeHRM\Installer\Migration\V5_10_3\Migration::class,
         '5.10.4' => \OrangeHRM\Installer\Migration\V5_10_4\Migration::class,
         '5.10.5' => \OrangeHRM\Installer\Migration\V5_10_5\Migration::class,
+        '5.10.6' => \OrangeHRM\Installer\Migration\V5_10_6\Migration::class,
     ];
 
     public const INSTALLATION_DB_TYPE_NEW = 'new';
