@@ -635,3 +635,15 @@ admin_ldap_configuration:
   path: /admin/ldapConfiguration
   controller: OrangeHRM\Admin\Controller\LdapConfigurationController::handle
   methods: [ GET ]
+
+apiv2_admin_menu_items:
+  path: /api/v2/admin/menu-items
+  controller: OrangeHRM\Core\Controller\Rest\V2\GenericRestController::handle
+  methods: [ GET, PUT ]
+  defaults:
+    _api: OrangeHRM\Admin\Api\MenuConfigAPI
+
+admin_menu_config:
+  path: /admin/menuConfig
+  controller: OrangeHRM\Admin\Controller\MenuConfigController::handle
+  methods: [ GET ]

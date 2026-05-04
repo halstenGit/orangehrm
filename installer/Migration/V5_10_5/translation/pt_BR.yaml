@@ -1,0 +1,8 @@
+translations:
+  - {unitId: menu_configuration, group: admin, target: "Configuração do Menu"}
+  - {unitId: menu_configuration_help, group: admin, target: "Ajuste a ordem, o ícone e a visibilidade dos itens do menu lateral. As mudanças aparecem no próximo carregamento da página."}
+  - {unitId: top_level_menus, group: admin, target: "Menus principais"}
+  - {unitId: order, group: admin, target: "Ordem"}
+  - {unitId: icon_name, group: admin, target: "Ícone"}
+  - {unitId: visible, group: admin, target: "Visível"}
+  - {unitId: icon_placeholder, group: admin, target: "Nome do ícone (ex.: laptop, pim, claim)"}
